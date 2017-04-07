@@ -11,6 +11,6 @@ package com.sgnp.helloworld;
  */
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello, Wooooooorld!");
+        System.out.println("Hello, World!");
     }
 }
