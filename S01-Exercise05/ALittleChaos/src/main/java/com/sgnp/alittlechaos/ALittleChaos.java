@@ -26,6 +26,9 @@ public class ALittleChaos {
         System.out.println("You can store a randomized resulte: " + num);
         System.out.println("And use it over and over again: " + num + ", " + num);
         
+        System.out.println("Or just keep generating new values.");
+        System.out.println("Here's a bunch of numbers from 0 - 100: ");
+        
         // If r.nextInt(101) is changed to what it is below
         // Then it no longer generates a number between 0-100
         // Instead, it generates a number between 0-49
