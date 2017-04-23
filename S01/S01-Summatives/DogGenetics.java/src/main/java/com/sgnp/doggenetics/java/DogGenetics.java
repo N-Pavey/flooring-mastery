@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class DogGenetics {
     
     public static void main(String[] args) {
-        
+         
         Scanner userInput = new Scanner(System.in);
         Random randomDog = new Random();
         
