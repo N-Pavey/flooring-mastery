@@ -19,16 +19,16 @@ public class DogGenetics {
         Scanner userInput = new Scanner(System.in);
         Random randomDog = new Random();
         
-        int totalPercent = 100;
+        int totalPercent = 101;
         int percent1, percent2, percent3, percent4, percent5;
         
-        percent1 = randomDog.nextInt(totalPercent) + 1;
+        percent1 = randomDog.nextInt(totalPercent);
         totalPercent = totalPercent - percent1;
-        percent2 = randomDog.nextInt(totalPercent) + 1;
+        percent2 = randomDog.nextInt(totalPercent);
         totalPercent = totalPercent - percent2;
-        percent3 = randomDog.nextInt(totalPercent) + 1;
+        percent3 = randomDog.nextInt(totalPercent);
         totalPercent = totalPercent - percent3;
-        percent4 = randomDog.nextInt(totalPercent) + 1;
+        percent4 = randomDog.nextInt(totalPercent);
         totalPercent = totalPercent - percent4;
         percent5 = totalPercent;
         
