@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class HealthyHearts {
     
     public static void main(String[] args) {
-        
+         
         Scanner inputReader = new Scanner(System.in);
         
         double age, lowRange, highRange, maxRate;
