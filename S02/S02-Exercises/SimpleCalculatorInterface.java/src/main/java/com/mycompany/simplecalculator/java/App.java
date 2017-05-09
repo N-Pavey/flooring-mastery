@@ -1,48 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.simplecalculator.java;
 
-import java.util.Scanner;
 
-/**
- *
- * @author apprentice
- */
 public class App {
     
     public static void main(String[] args) {
         
-        Scanner userInput = new Scanner(System.in);
+        UserIO userInterface = new ImplementedInterface();
         SimpleCalculator mySimpleCalculator = new SimpleCalculator();
         
         double value1;
         double value2;
-        String userChoice;
+        String userChoice = null;
         boolean runMethod = true;
         
         while (runMethod == true) {
             
-            System.out.println("Would you like to add, subtract, multiply, or divide two numbers?");
-            System.out.println("Or exit the program? (add, subtract, multiply, divide, exit) ");
+            userInterface.print("Would you like to add, subtract, multiply, or divide two numbers?");
+            userInterface.print("Or exit the program? (add, subtract, multiply, divide, exit) ");
             
-            userChoice = userInput.nextLine();
+            userChoice = userInterface.readString(userChoice);
             
             if ("exit".equalsIgnoreCase(userChoice)){
                 
-                System.out.println("We'll do math later then!");
+                userInterface.print("We'll do math later then!");
                 runMethod = false;
                 
             } else {
                 
-                System.out.print("Great! What's the first number? ");
-                value1 = userInput.nextDouble();
-                userInput.nextLine();
-                System.out.print("Okay. And the second number? ");
-                value2 = userInput.nextDouble();
-                userInput.nextLine();
+                userInterface.print("Great! What's the first number? ");
+                value1 = userInterface.readDouble(userChoice);
+                
+                userInterface.print("Okay. And the second number? ");
+                value2 = userInterface.readDouble(userChoice);
                 
                 if ("add".equalsIgnoreCase(userChoice)) {
                     
