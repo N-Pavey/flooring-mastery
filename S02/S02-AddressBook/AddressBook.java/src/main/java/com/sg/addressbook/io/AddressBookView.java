@@ -43,7 +43,7 @@ public class AddressBookView {
         String streetAddress = io.readString("Please enter the street address.");
         String cityName = io.readString("Please enter the city.");
         String stateName = io.readString("Please enter the state.");
-        String zipCode = io.readString("Please enter the zip code.");
+        int zipCode = io.readInt("Please enter the zip code.");
         
         AddressBook currentAddress = new AddressBook(lastName);
         currentAddress.setFirstName(firstName);

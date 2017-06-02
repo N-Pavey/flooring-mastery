@@ -49,7 +49,7 @@ public class AddressBookDaoImpl implements AddressBookDao {
             currentAddress.setStreetAddress(currentTokens[2]);
             currentAddress.setCityName(currentTokens[3]);
             currentAddress.setStateName(currentTokens[4]);
-            currentAddress.setZipCode(currentTokens[5]);
+            currentAddress.setZipCode(Integer.parseInt(currentTokens[5]));
             
             addresses.put(currentAddress.getLastName(), currentAddress);
             

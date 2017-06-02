@@ -16,7 +16,7 @@ public class AddressBook {
     private String streetAddress;
     private String cityName;
     private String stateName;
-    private String zipCode;
+    private int zipCode;
 
     public String getFirstName() {
         return firstName;
@@ -59,11 +59,11 @@ public class AddressBook {
         this.stateName = stateName;
     }
 
-    public String getZipCode() {
+    public int getZipCode() {
         return zipCode;
     }
 
-    public void setZipCode(String zipCode) {
+    public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
     
