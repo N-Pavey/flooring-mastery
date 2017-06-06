@@ -89,21 +89,29 @@ public class DVDLibraryView {
     
     public String getDVDChoice() {
         
-        return io.readString("\nPlease enter the DVD ID number.");
+        return io.readString("\nPlease enter the DVD title.");
         
     }
     
-    public void displayDVD(DVD dvd) {
+    public void displayDVD(List<DVD> dvdList, String title) {
         
-        if (dvd != null) {
+        if (dvdList != null) {
             
-            io.print("\nMovie ID Number:  " + dvd.getIdNum());
-            io.print("Movie Title:      " + dvd.getTitle());
-            io.print("Release Date:     " + dvd.getReleaseDate());
-            io.print("MPAA Rating:      " + dvd.getMpaaRating());
-            io.print("Director:         " + dvd.getDirectorName());
-            io.print("Studio:           " + dvd.getStudio());
-            io.print("User Rating/Note: " + dvd.getUserRatingOrNote());
+            for (DVD currentDVD : dvdList) {
+                
+                if (currentDVD.getTitle().equalsIgnoreCase(title)) {
+            
+                io.print("\nMovie ID Number:  " + currentDVD.getIdNum());
+                io.print("Movie Title:      " + currentDVD.getTitle());
+                io.print("Release Date:     " + currentDVD.getReleaseDate());
+                io.print("MPAA Rating:      " + currentDVD.getMpaaRating());
+                io.print("Director:         " + currentDVD.getDirectorName());
+                io.print("Studio:           " + currentDVD.getStudio());
+                io.print("User Rating/Note: " + currentDVD.getUserRatingOrNote());
+                
+                }
+                
+            }
             
         } else {
             

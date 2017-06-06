@@ -140,9 +140,9 @@ public class DVDLibraryController {
     private void viewDVD() throws DVDLibraryDaoException {
         
         view.displayDisplayDVDBanner();
-        String idNum = view.getDVDChoice();
-        DVD dvd = dao.getDVD(idNum);
-        view.displayDVD(dvd);
+        String title = view.getDVDChoice();
+        List<DVD> dvdList = dao.getAllDVDs();
+        view.displayDVD(dvdList, title);
         
     }
     
