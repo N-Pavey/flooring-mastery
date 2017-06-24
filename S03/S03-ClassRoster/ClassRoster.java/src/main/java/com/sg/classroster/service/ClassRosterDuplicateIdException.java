@@ -3,21 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.classroster.dao;
+package com.sg.classroster.service;
 
 /**
  *
  * @author apprentice
  */
-public class ClassRosterPersistenceException extends Exception {
+public class ClassRosterDuplicateIdException extends Exception {
     
-    public ClassRosterPersistenceException(String message) {
+    public ClassRosterDuplicateIdException(String message) {
         
         super(message);
         
     }
     
-    public ClassRosterPersistenceException(String message, Throwable cause) {
+    public ClassRosterDuplicateIdException(String message, Throwable cause) {
         
         super(message, cause);
         
