@@ -29,18 +29,25 @@ public class AddressBookDaoImpl implements AddressBookDao {
     public static final String ADDRESSES_FILE = "addresses.txt";
     public static final String DELIMITER = "::";
     
-    private void loadAddressBook() throws FileNotFoundException {
+    private void loadAddressBook() throws AddressBookDaoException {
         
         Scanner scanner;
         
-        scanner = new Scanner(new BufferedReader(new FileReader(ADDRESSES_FILE)));
+        try {
+            
+            scanner = new Scanner(new BufferedReader(new FileReader(ADDRESSES_FILE)));
+            
+        } catch (FileNotFoundException e) {
+            
+            throw new AddressBookDaoException("Could not load address book data into memory.", e);
+            
+        }
 
         String currentLine;
         
         String[] currentTokens;
         
         while (scanner.hasNextLine()) {
-            
             
             currentLine = scanner.nextLine();
             currentTokens = currentLine.split(DELIMITER);
@@ -59,11 +66,19 @@ public class AddressBookDaoImpl implements AddressBookDao {
         
     }
     
-    private void writeAddressBook() throws IOException {
+    private void writeAddressBook() throws AddressBookDaoException {
         
         PrintWriter out;
         
-        out = new PrintWriter(new FileWriter(ADDRESSES_FILE));
+        try {
+            
+            out = new PrintWriter(new FileWriter(ADDRESSES_FILE));
+            
+        } catch (IOException e) {
+            
+            throw new AddressBookDaoException("Could not save address data.", e);
+            
+        }
         
         List<AddressBook> addressBookList = this.getAllAddresses();
         for (AddressBook currentAddress : addressBookList) {
@@ -78,7 +93,7 @@ public class AddressBookDaoImpl implements AddressBookDao {
     }
 
     @Override
-    public AddressBook addAddress(String lastName, AddressBook address) {
+    public AddressBook addAddress(String lastName, AddressBook address) throws AddressBookDaoException {
         
         AddressBook newAddress = addresses.put(lastName, address);
         writeAddressBook();
@@ -87,30 +102,34 @@ public class AddressBookDaoImpl implements AddressBookDao {
     }
 
     @Override
-    public List<AddressBook> getAllAddresses() {
+    public List<AddressBook> getAllAddresses() throws AddressBookDaoException {
         
+        loadAddressBook();
         return new ArrayList<AddressBook>(addresses.values());
         
     }
 
     @Override
-    public AddressBook findAddress(String lastName) {
+    public AddressBook findAddress(String lastName) throws AddressBookDaoException {
         
+        loadAddressBook();
         return addresses.get(lastName);
         
     }
 
     @Override
-    public AddressBook removeAddress(String lastName) {
+    public AddressBook removeAddress(String lastName) throws AddressBookDaoException {
         
         AddressBook removedAddress = addresses.remove(lastName);
+        writeAddressBook();
         return removedAddress;
         
     }
 
     @Override
-    public List<AddressBook> listAddressSize() {
+    public List<AddressBook> listAddressSize() throws AddressBookDaoException {
         
+        loadAddressBook();
         return new ArrayList<AddressBook>(addresses.values());
         
     }

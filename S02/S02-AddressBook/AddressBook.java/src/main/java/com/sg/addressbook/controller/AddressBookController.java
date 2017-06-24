@@ -6,6 +6,7 @@
 package com.sg.addressbook.controller;
 
 import com.sg.addressbook.dao.AddressBookDao;
+import com.sg.addressbook.dao.AddressBookDaoException;
 import com.sg.addressbook.dao.AddressBookDaoImpl;
 import com.sg.addressbook.dto.AddressBook;
 import com.sg.addressbook.io.AddressBookView;
@@ -27,32 +28,40 @@ public class AddressBookController {
         boolean keepGoing = true;
         int menuSelection = 0;
         
-        while (keepGoing) {
-            
-            menuSelection = getMenuSelection();
-            
-            switch (menuSelection) {
-                case 1:
-                    addAddress();
-                    break;
-                case 2:
-                    removeAddress();
-                    break;
-                case 3:
-                    findAddress();
-                    break;
-                case 4:
-                    listAddressSize();
-                    break;
-                case 5:
-                    listAddresses();
-                    break;
-                case 6:
-                    keepGoing = false;
-                    break;
-                default:
-                    unknownCommand();
+        try {
+        
+            while (keepGoing) {
+
+                menuSelection = getMenuSelection();
+
+                switch (menuSelection) {
+                    case 1:
+                        addAddress();
+                        break;
+                    case 2:
+                        removeAddress();
+                        break;
+                    case 3:
+                        findAddress();
+                        break;
+                    case 4:
+                        listAddressSize();
+                        break;
+                    case 5:
+                        listAddresses();
+                        break;
+                    case 6:
+                        keepGoing = false;
+                        break;
+                    default:
+                        unknownCommand();
+                }
+
             }
+            
+        } catch (AddressBookDaoException e) {
+            
+            view.displayErrorMessage(e.getMessage());
             
         }
         
@@ -73,7 +82,7 @@ public class AddressBookController {
         
     }
     
-    private void addAddress() {
+    private void addAddress() throws AddressBookDaoException {
         
         view.displayAddAddressBanner();
         AddressBook newAddress = view.getNewAddressInfo();
@@ -82,7 +91,7 @@ public class AddressBookController {
         
     }
     
-    private void removeAddress() {
+    private void removeAddress() throws AddressBookDaoException {
         
         view.displayRemovedAddressBanner();
         String lastName = view.getAddressChoice();
@@ -91,7 +100,7 @@ public class AddressBookController {
         
     }
     
-    private void findAddress() {
+    private void findAddress() throws AddressBookDaoException {
         
         view.displayDisplayAddressBanner();
         String lastName = view.getAddressChoice();
@@ -100,7 +109,7 @@ public class AddressBookController {
         
     }
     
-    private void listAddressSize() {
+    private void listAddressSize() throws AddressBookDaoException {
         
         view.displayDisplayAddressListSizeBanner();
         List<AddressBook> addressListSize = dao.listAddressSize();
@@ -108,7 +117,7 @@ public class AddressBookController {
         
     }
     
-    private void listAddresses() {
+    private void listAddresses() throws AddressBookDaoException {
         
         view.displayDisplayAllBanner();
         List<AddressBook> addressList = dao.getAllAddresses();

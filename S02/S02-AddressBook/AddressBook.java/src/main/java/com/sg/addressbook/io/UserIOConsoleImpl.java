@@ -29,16 +29,32 @@ public class UserIOConsoleImpl implements UserIO {
     
     @Override
     public int readInt(String prompt, int min, int max) {
-        int userNum;
+        int userNum = 0;
+        boolean validEntry = false;
         String userChoice;
         
-        do {
-            System.out.println(prompt);
-            userChoice = userInput.nextLine();
-            userNum = Integer.parseInt(userChoice);
-        } while (userNum < min || userNum > max);
+        while (!validEntry) {
+            
+            try {
+            
+                do {
+                    System.out.println(prompt);
+                    userChoice = userInput.nextLine();
+                    userNum = Integer.parseInt(userChoice);
+                    validEntry = true;
+                } while (userNum < min || userNum > max);
+                
+            } catch (NumberFormatException e) {
+                
+                System.out.println("Please enter a number.");
+                validEntry = false;
+                
+            }
+            
+        }
         
         return userNum;
+        
     }
     
     @Override
@@ -62,14 +78,28 @@ public class UserIOConsoleImpl implements UserIO {
     
     @Override
     public float readFloat(String prompt, float min, float max) {
-        float userNum;
+        float userNum = 0;
+        boolean validEntry = false;
         String userChoice;
         
-        do {
-            System.out.println(prompt);
-            userChoice = userInput.nextLine();
-            userNum = Float.parseFloat(userChoice);
-        } while (userNum < min || userNum > max);
+        while (!validEntry) {
+            
+            try {
+            
+                do {
+                    System.out.println(prompt);
+                    userChoice = userInput.nextLine();
+                    userNum = Float.parseFloat(userChoice);
+                } while (userNum < min || userNum > max);
+                
+            } catch (NumberFormatException e) {
+                
+                System.out.println("Please enter a number.");
+                validEntry = false;
+                
+            }
+            
+        }
         
         return userNum;
     }
@@ -88,14 +118,28 @@ public class UserIOConsoleImpl implements UserIO {
     
     @Override
     public double readDouble(String prompt, double min, double max) {
-        double userNum;
+        double userNum = 0;
+        boolean validEntry = false;
         String userChoice;
         
-        do {
-            System.out.println(prompt);
-            userChoice = userInput.nextLine();
-            userNum = Double.parseDouble(userChoice);
-        } while (userNum < min || userNum > max);
+        while (!validEntry) {
+            
+            try {
+            
+                do {
+                    System.out.println(prompt);
+                    userChoice = userInput.nextLine();
+                    userNum = Double.parseDouble(userChoice);
+                } while (userNum < min || userNum > max);
+                
+            } catch (NumberFormatException e) {
+                
+                System.out.println("Please enter a number.");
+                validEntry = false;
+                
+            }
+            
+        }
         
         return userNum;
     }
@@ -114,14 +158,28 @@ public class UserIOConsoleImpl implements UserIO {
     
     @Override
     public long readLong(String prompt, long min, long max) {
-        long userNum;
+        long userNum = 0;
+        boolean validEntry = false;
         String userChoice;
         
-        do {
-            System.out.println(prompt);
-            userChoice = userInput.nextLine();
-            userNum = Long.parseLong(userChoice);
-        } while (userNum < min || userNum > max);
+        while (!validEntry) {
+            
+            try {
+            
+                do {
+                    System.out.println(prompt);
+                    userChoice = userInput.nextLine();
+                    userNum = Long.parseLong(userChoice);
+                } while (userNum < min || userNum > max);
+                
+            } catch (NumberFormatException e) {
+                
+                System.out.println("Please enter a number.");
+                validEntry = false;
+                
+            }
+            
+        }
         
         return userNum;
     }
