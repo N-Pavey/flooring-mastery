@@ -87,7 +87,15 @@ public class DVDLibraryView {
         
     }
     
-    public String getDVDChoice() {
+    public String getDVDChoiceId() {
+        
+        return io.readString("\nPlease enter the DVD ID number.");
+        
+    }
+    
+    
+    
+    public String getDVDChoiceTitle() {
         
         return io.readString("\nPlease enter the DVD title.");
         
