@@ -6,6 +6,9 @@
 package com.sg.dvdlibrary.ui;
 
 import com.sg.dvdlibrary.dto.DVD;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 /**
@@ -21,6 +24,8 @@ public class DVDLibraryView {
         this.io = io;
         
     }
+    
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     
     public int printMenuAndGetSelection() {
         
@@ -45,7 +50,7 @@ public class DVDLibraryView {
         
         String idNum = io.readString("\nPlease enter the DVD ID number.");
         String title = io.readString("\nPlease enter the DVD title.");
-        String releaseDate = io.readString("\nWhen was this DVD released?");
+        String releaseDate = io.readString("\nWhen was this DVD released? (MM/dd/yyyy) ");
         String mpaaRating = io.readString("\nWhat was the MPAA rating?");
         String directorName = io.readString("\nWho directed this movie?");
         String studio = io.readString("\nWhich studio produced this movie?");
@@ -53,7 +58,7 @@ public class DVDLibraryView {
         
         DVD currentDVD = new DVD(idNum);
         currentDVD.setTitle(title);
-        currentDVD.setReleaseDate(releaseDate);
+        currentDVD.setReleaseDate(LocalDate.parse(releaseDate, formatter));
         currentDVD.setMpaaRating(mpaaRating);
         currentDVD.setDirectorName(directorName);
         currentDVD.setStudio(studio);
@@ -111,7 +116,7 @@ public class DVDLibraryView {
             
                 io.print("\nMovie ID Number:  " + currentDVD.getIdNum());
                 io.print("Movie Title:      " + currentDVD.getTitle());
-                io.print("Release Date:     " + currentDVD.getReleaseDate());
+                io.print("Release Date:     " + currentDVD.getReleaseDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
                 io.print("MPAA Rating:      " + currentDVD.getMpaaRating());
                 io.print("Director:         " + currentDVD.getDirectorName());
                 io.print("Studio:           " + currentDVD.getStudio());
@@ -143,7 +148,7 @@ public class DVDLibraryView {
         
             io.print("\nWhich field would you like to edit?");
             io.print("1. Movie Title:      " + dvd.getTitle());
-            io.print("2. Release Date:     " + dvd.getReleaseDate());
+            io.print("2. Release Date:     " + dvd.getReleaseDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
             io.print("3. MPAA Rating:      " + dvd.getMpaaRating());
             io.print("4. Director:         " + dvd.getDirectorName());
             io.print("5. Studio:           " + dvd.getStudio());
@@ -169,8 +174,8 @@ public class DVDLibraryView {
     
     public void editDVDRelease(DVD dvd) {
         
-        String releaseDate = io.readString("\nPlease enter the release date.");
-        dvd.setReleaseDate(releaseDate);
+        String releaseDate = io.readString("\nWhen was this DVD released? (MM/dd/yyyy) ");
+        dvd.setReleaseDate(LocalDate.parse(releaseDate, formatter));
         
     }
     
@@ -208,7 +213,7 @@ public class DVDLibraryView {
             
             io.print("\nMovie ID number: " + currentDVD.getIdNum());
             io.print("Movie Title:     " + currentDVD.getTitle());
-            io.print("Release Date:    " + currentDVD.getReleaseDate());
+            io.print("Release Date:    " + currentDVD.getReleaseDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
             
         }
         

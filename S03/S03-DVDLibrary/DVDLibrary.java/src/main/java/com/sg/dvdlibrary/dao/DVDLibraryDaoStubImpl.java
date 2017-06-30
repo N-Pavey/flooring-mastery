@@ -6,6 +6,8 @@
 package com.sg.dvdlibrary.dao;
 
 import com.sg.dvdlibrary.dto.DVD;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +20,13 @@ public class DVDLibraryDaoStubImpl implements DVDLibraryDao {
     DVD onlyDVD;
     List<DVD> dvdList = new ArrayList<>();
     
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    
     public DVDLibraryDaoStubImpl() {
         
         onlyDVD = new DVD("0001");
         onlyDVD.setTitle("Jurassic Park");
-        onlyDVD.setReleaseDate("1993");
+        onlyDVD.setReleaseDate(LocalDate.parse("02/02/1993", formatter));
         onlyDVD.setMpaaRating("PG-13");
         onlyDVD.setDirectorName("Steven Spielberg");
         onlyDVD.setStudio("Universal Pictures");

@@ -12,6 +12,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.Scanner;
 public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
 
     private Map<String, DVD> dvds = new HashMap<>();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     
     public static final String LIBRARY_FILE = "dvdLibrary.txt";
     public static final String DELIMITER = "::";
@@ -51,9 +54,11 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
             currentLine = scanner.nextLine();
             currentTokens = currentLine.split(DELIMITER);
             
+            //String releaseDate = LocalDate
+            
             DVD currentDVD = new DVD(currentTokens[0]);
             currentDVD.setTitle(currentTokens[1]);
-            currentDVD.setReleaseDate(currentTokens[2]);
+            currentDVD.setReleaseDate(LocalDate.parse(currentTokens[2]));
             currentDVD.setMpaaRating(currentTokens[3]);
             currentDVD.setDirectorName(currentTokens[4]);
             currentDVD.setStudio(currentTokens[5]);

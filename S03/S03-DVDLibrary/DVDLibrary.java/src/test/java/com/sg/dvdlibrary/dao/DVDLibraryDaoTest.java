@@ -6,6 +6,8 @@
 package com.sg.dvdlibrary.dao;
 
 import com.sg.dvdlibrary.dto.DVD;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,6 +23,8 @@ import static org.junit.Assert.*;
 public class DVDLibraryDaoTest {
     
     private DVDLibraryDao dao = new DVDLibraryDaoFileImpl();
+    
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     
     public DVDLibraryDaoTest() {
     }
@@ -58,7 +62,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd = new DVD("0001");
         dvd.setTitle("Jurassic Park");
-        dvd.setReleaseDate("1993");
+        dvd.setReleaseDate(LocalDate.parse("02/02/1993", formatter));
         dvd.setMpaaRating("PG-13");
         dvd.setDirectorName("Steven Spielberg");
         dvd.setStudio("Universal Pictures");
@@ -80,7 +84,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd1 = new DVD("0001");
         dvd1.setTitle("Jurassic Park");
-        dvd1.setReleaseDate("1993");
+        dvd1.setReleaseDate(LocalDate.parse("02/02/1993", formatter));
         dvd1.setMpaaRating("PG-13");
         dvd1.setDirectorName("Steven Spielberg");
         dvd1.setStudio("Universal Pictures");
@@ -90,7 +94,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd2 = new DVD("0002");
         dvd2.setTitle("The Lost World: Jurassic Park");
-        dvd2.setReleaseDate("1997");
+        dvd2.setReleaseDate(LocalDate.parse("02/02/1997", formatter));
         dvd2.setMpaaRating("PG-13");
         dvd2.setDirectorName("Steven Spielberg");
         dvd2.setStudio("Universal Pictures");
@@ -110,7 +114,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd1 = new DVD("0001");
         dvd1.setTitle("Jurassic Park");
-        dvd1.setReleaseDate("1993");
+        dvd1.setReleaseDate(LocalDate.parse("02/02/1993", formatter));
         dvd1.setMpaaRating("PG-13");
         dvd1.setDirectorName("Steven Spielberg");
         dvd1.setStudio("Universal Pictures");
@@ -120,7 +124,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd2 = new DVD("0002");
         dvd2.setTitle("The Lost World: Jurassic Park");
-        dvd2.setReleaseDate("1997");
+        dvd2.setReleaseDate(LocalDate.parse("02/02/1993", formatter));
         dvd2.setMpaaRating("PG-13");
         dvd2.setDirectorName("Steven Spielberg");
         dvd2.setStudio("Universal Pictures");
@@ -146,7 +150,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd = new DVD("0001");
         dvd.setTitle("Jurassic Park");
-        dvd.setReleaseDate("1993");
+        dvd.setReleaseDate(LocalDate.parse("02/02/1993", formatter));
         dvd.setMpaaRating("PG-13");
         dvd.setDirectorName("Steven Spielberg");
         dvd.setStudio("Universal Pictures");

@@ -80,7 +80,7 @@ public class DVDLibraryServiceLayerImpl implements DVDLibraryServiceLayer {
         if (dvd.getTitle() == null
                 || dvd.getTitle().trim().length() == 0
                 || dvd.getReleaseDate() == null
-                || dvd.getReleaseDate().trim().length() == 0
+                || dvd.getReleaseDate().toString().trim().length() == 0
                 || dvd.getMpaaRating() == null
                 || dvd.getMpaaRating().trim().length() == 0
                 || dvd.getDirectorName() == null
