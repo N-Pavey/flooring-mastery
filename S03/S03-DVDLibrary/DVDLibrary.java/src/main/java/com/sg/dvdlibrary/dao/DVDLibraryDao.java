@@ -6,7 +6,9 @@
 package com.sg.dvdlibrary.dao;
 
 import com.sg.dvdlibrary.dto.DVD;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -23,5 +25,19 @@ public interface DVDLibraryDao {
     DVD removeDVD(String idNum) throws DVDLibraryPersistenceException;
     
     DVD editDVD(String idNum) throws DVDLibraryPersistenceException;
+    
+    List<DVD> getDVDsReleasedFromDate(int ageInYears) throws DVDLibraryPersistenceException;
+    
+    List<DVD> getDVDsByMpaaRating(String rating) throws DVDLibraryPersistenceException;
+    
+    Map<String, List<DVD>> getAllDVDsByDirectorGroupByMpaa(String director) throws DVDLibraryPersistenceException;
+    
+    List<DVD> getAllDVDsByStudio(String studio) throws DVDLibraryPersistenceException;
+    
+    double getAverageDVDAge() throws DVDLibraryPersistenceException;
+    
+    DVD getNewestDVD() throws DVDLibraryPersistenceException;
+    
+    DVD getOldestDVD() throws DVDLibraryPersistenceException;
     
 }

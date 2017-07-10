@@ -10,6 +10,7 @@ import com.sg.dvdlibrary.dao.DVDLibraryDao;
 import com.sg.dvdlibrary.dao.DVDLibraryPersistenceException;
 import com.sg.dvdlibrary.dto.DVD;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -92,6 +93,55 @@ public class DVDLibraryServiceLayerImpl implements DVDLibraryServiceLayer {
                     + " Director, and Studio] are all required.");
         }
         
+    }
+
+    @Override
+    public List<DVD> getDVDsReleasedFromDate(int ageInYears) throws DVDLibraryPersistenceException {
+
+        return dao.getDVDsReleasedFromDate(ageInYears);
+
+    }
+
+    @Override
+    public List<DVD> getDVDsByMpaaRating(String rating) throws DVDLibraryPersistenceException {
+
+        return dao.getDVDsByMpaaRating(rating);
+
+    }
+
+    @Override
+    public Map<String, List<DVD>> getAllDVDsByDirectorGroupByMpaa(String director) throws DVDLibraryPersistenceException {
+
+        return dao.getAllDVDsByDirectorGroupByMpaa(director);
+
+    }
+
+    @Override
+    public List<DVD> getAllDVDsByStudio(String studio) throws DVDLibraryPersistenceException {
+
+        return dao.getAllDVDsByStudio(studio);
+
+    }
+
+    @Override
+    public double getAverageDVDAge() throws DVDLibraryPersistenceException {
+
+        return dao.getAverageDVDAge();
+
+    }
+
+    @Override
+    public DVD getNewestDVD() throws DVDLibraryPersistenceException {
+
+        return dao.getNewestDVD();
+
+    }
+
+    @Override
+    public DVD getOldestDVD() throws DVDLibraryPersistenceException {
+
+        return dao.getOldestDVD();
+
     }
     
 }

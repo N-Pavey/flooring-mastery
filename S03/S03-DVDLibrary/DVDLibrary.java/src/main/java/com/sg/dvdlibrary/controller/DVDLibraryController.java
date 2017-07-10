@@ -12,6 +12,7 @@ import com.sg.dvdlibrary.service.DVDLibraryDuplicateIdException;
 import com.sg.dvdlibrary.service.DVDLibraryServiceLayer;
 import com.sg.dvdlibrary.ui.DVDLibraryView;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -58,6 +59,27 @@ public class DVDLibraryController {
                         listDVDs();
                         break;
                     case 6:
+                        getDVDsSinceYear();
+                        break;
+                    case 7:
+                        getDVDsWithMpaa();
+                        break;
+                    case 8:
+                        getDVDsByDirector();
+                        break;
+                    case 9:
+                        getDVDsByStudio();
+                        break;
+                    case 10:
+                        getAverageAgeOfDVDs();
+                        break;
+                    case 11:
+                        getNewestDVD();
+                        break;
+                    case 12:
+                        getOldestDVD();
+                        break;
+                    case 13:
                         keepGoing = false;
                         break;
                     default:
@@ -244,6 +266,63 @@ public class DVDLibraryController {
         
         view.displayExitBanner();
         
+    }
+
+    private void getDVDsSinceYear() throws DVDLibraryPersistenceException {
+
+        int ageInYears = view.getDVDReleaseDate();
+        List<DVD> dvdList = service.getDVDsReleasedFromDate(ageInYears);
+        view.displayBannerDVDsSinceYear();
+        view.displayDVDsSinceYear(dvdList);
+
+    }
+
+    private void getDVDsWithMpaa() throws DVDLibraryPersistenceException {
+
+        String rating = view.getDVDRating();
+        List<DVD> dvdList = service.getDVDsByMpaaRating(rating);
+        view.displayBannerDVDsWithRating(rating);
+        view.displayDVDsWithRating(dvdList);
+
+    }
+
+    private void getDVDsByDirector() throws DVDLibraryPersistenceException {
+
+        String director = view.getDirectorChoice();
+        Map<String, List<DVD>> dvdMap = service.getAllDVDsByDirectorGroupByMpaa(director);
+        view.displayBannerDirectorSearch(director);
+        view.displayDirectorSearchResults(dvdMap);
+
+    }
+
+    private void getDVDsByStudio() throws DVDLibraryPersistenceException {
+
+        String studio = view.getDVDStudio();
+        List<DVD> dvdList = service.getAllDVDsByStudio(studio);
+        view.displayBannerDVDsByStudio(studio);
+        view.displayDVDsByStudio(dvdList);
+
+    }
+
+    private void getAverageAgeOfDVDs() throws DVDLibraryPersistenceException {
+
+        double averageAge = service.getAverageDVDAge();
+        view.displayDVDsAverageAge(averageAge);
+
+    }
+
+    private void getNewestDVD() throws DVDLibraryPersistenceException {
+
+        DVD dvd = service.getNewestDVD();
+        view.displayNewestDVD(dvd);
+
+    }
+
+    private void getOldestDVD() throws DVDLibraryPersistenceException {
+
+        DVD dvd = service.getOldestDVD();
+        view.displayOldestDVD(dvd);
+
     }
     
 }

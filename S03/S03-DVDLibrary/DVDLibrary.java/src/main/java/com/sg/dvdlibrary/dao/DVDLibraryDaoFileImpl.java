@@ -13,12 +13,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -143,6 +146,84 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
         writeLibrary();
         return editedDVD;
         
+    }
+
+    @Override
+    public List<DVD> getDVDsReleasedFromDate(int ageInYears) throws DVDLibraryPersistenceException {
+        
+        loadLibrary();
+        return dvds.values()
+                .stream()
+                .filter(s -> s.getDVDAge() < ageInYears)
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<DVD> getDVDsByMpaaRating(String rating) throws DVDLibraryPersistenceException {
+
+        loadLibrary();
+        return dvds.values()
+                .stream()
+                .filter(s -> s.getMpaaRating().equalsIgnoreCase(rating))
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public Map<String, List<DVD>> getAllDVDsByDirectorGroupByMpaa(String director) throws DVDLibraryPersistenceException {
+
+        loadLibrary();
+        return dvds.values()
+                .stream()
+                .filter(s -> s.getDirectorName().equalsIgnoreCase(director))
+                .collect(Collectors.groupingBy(DVD::getMpaaRating));
+
+    }
+
+    @Override
+    public List<DVD> getAllDVDsByStudio(String studio) throws DVDLibraryPersistenceException {
+
+        loadLibrary();
+        return dvds.values()
+                .stream()
+                .filter(s -> s.getStudio().equalsIgnoreCase(studio))
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public double getAverageDVDAge() throws DVDLibraryPersistenceException {
+
+        loadLibrary();
+        return dvds.values()
+                .stream()
+                .mapToLong(s -> s.getDVDAge())
+                .average()
+                .getAsDouble();
+
+    }
+
+    @Override
+    public DVD getNewestDVD() throws DVDLibraryPersistenceException {
+        
+        loadLibrary();
+        return dvds.values()
+                .stream()
+                .collect(Collectors.maxBy((a,b) -> a.getReleaseDate().compareTo(b.getReleaseDate())))
+                .orElse(null);
+
+    }
+
+    @Override
+    public DVD getOldestDVD() throws DVDLibraryPersistenceException {
+
+        loadLibrary();
+        return dvds.values()
+                .stream()
+                .collect(Collectors.minBy((a,b) -> a.getReleaseDate().compareTo(b.getReleaseDate())))
+                .orElse(null);
+
     }
     
 }

@@ -1,0 +1,7 @@
+0001::Jurassic Park::1993-06-07::PG-13::Steven Spielburg::Universal::Pretty Good
+0002::The Lost World: Jurassic Park::1997-05-19::PG-13::Steven Spielburg::Universal::Pretty Good
+0003::Hook::1991-12-11::PG::Steven Spielburg::Paramount::Pretty Good
+0004::The Goonies::1985-06-07::PG::Steven Spielburg::Warner Bros.::Pretty Good
+0005::E.T. the Extra-Terrestrial::1982-06-11::PG::Steven Spielburg::Universal::Pretty Good
+0006::Star Wars: The Force Awakens::2015-12-18::PG-13::J.J. Abrams::A studio::Great
+0007::Super 8::2011-06-09::PG-13::J.J. Abrams::A studio::Okay
