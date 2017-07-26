@@ -122,6 +122,9 @@ public class VendingMachineServiceLayerTest {
         VendingMachineItem item = service.getItem("A1");
         service.vendItem(item, BigDecimal.ONE);
         
+        //Item inventory starts at 2 - assert that an item was dispensed
+        assertEquals(1, item.getItemInventory());
+        
     }
     
     @Test
@@ -139,6 +142,8 @@ public class VendingMachineServiceLayerTest {
             return;
             
         }
+        
+        assertNull(item);
         
     }
     
@@ -158,13 +163,19 @@ public class VendingMachineServiceLayerTest {
             
         }
         
+        //assert that nothing was dispensed since user didn't have enough funds
+        assertEquals(2, item.getItemInventory());
+        
     }
     
     @Test
     public void testVendItemNoItemInventoryException() throws Exception {
         
         VendingMachineItem item = service.getItem("A1");
-        item.setItemInventory(0);
+        
+        //vend item twice to clear out inventory.
+        service.vendItem(item, BigDecimal.ONE);
+        service.vendItem(item, BigDecimal.ONE);
         
         try {
             
@@ -177,13 +188,19 @@ public class VendingMachineServiceLayerTest {
             
         }
         
+        //Ensure nothing was dispensed since there's nothing to dispense
+        assertEquals(0, item.getItemInventory());
+        
     }
     
     @Test
     public void testVendItemNoItemInventoryExceptionWithNoMoney() throws Exception {
         
         VendingMachineItem item = service.getItem("A1");
-        item.setItemInventory(0);
+        
+        //vend item twice to clear out inventory.
+        service.vendItem(item, BigDecimal.ONE);
+        service.vendItem(item, BigDecimal.ONE);
         
         try {
             
@@ -195,6 +212,9 @@ public class VendingMachineServiceLayerTest {
             return;
             
         }
+        
+        //Since there was no item to dispense, make sure nothing was in fact dispensed
+        assertEquals(0, item.getItemInventory());
         
     }
     

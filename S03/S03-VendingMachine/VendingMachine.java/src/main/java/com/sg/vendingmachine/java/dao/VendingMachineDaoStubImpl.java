@@ -72,7 +72,10 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
     @Override
     public void vendItem(VendingMachineItem item) throws VendingMachinePersistenceException, VendingMachineInsufficientFundsException, VendingMachineNoItemInventoryException {
 
-        //Nothing to return - do nothing
+        int itemInv = item.getItemInventory();
+        itemInv--;
+        item.setItemInventory(itemInv);
+        //Nothing to return
 
     }
     
