@@ -64,17 +64,18 @@ public class VendingMachineServiceLayerTest {
     }
 
     /**
-     * Test of addUserFunds method, of class VendingMachineServiceLayer.
+     * Test of addUserFunds and getUserFunds methods, of class VendingMachineServiceLayer.
      */
     @Test
-    public void testAddUserFunds() throws Exception {
+    public void testAddAndGetUserFunds() throws Exception {
         
         service.addUserFunds(new BigDecimal("1.00"));
+        assertEquals(new BigDecimal("1.00"), service.getUserFunds());
         
     }
     
     @Test
-    public void testAddUserFundsNumberFormatException() throws Exception {
+    public void testAddAndGetUserFundsNumberFormatException() throws Exception {
     
         try {
             
@@ -86,17 +87,9 @@ public class VendingMachineServiceLayerTest {
             return;
             
         }
+        
+        assertEquals(BigDecimal.ZERO, service.getUserFunds());
     
-    }
-
-    /**
-     * Test of getUserFunds method, of class VendingMachineServiceLayer.
-     */
-    @Test
-    public void testGetUserFunds() throws Exception {
-        
-        assertNotNull(service.getUserFunds());
-        
     }
 
     /**

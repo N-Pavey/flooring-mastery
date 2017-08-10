@@ -43,6 +43,7 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
     @Override
     public BigDecimal addUserFunds(BigDecimal userFunds) throws VendingMachinePersistenceException {
 
+        totalFunds = totalFunds.add(userFunds);
         return totalFunds;
 
     }
