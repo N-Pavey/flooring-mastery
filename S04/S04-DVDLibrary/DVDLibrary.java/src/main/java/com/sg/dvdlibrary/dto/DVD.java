@@ -135,4 +135,11 @@ public class DVD {
         return true;
     }
     
+    @Override
+    public String toString() {
+        
+        return "ID: " + idNum + " | Title: " + title + " | Release Date: " + releaseDate;
+        
+    }
+    
 }

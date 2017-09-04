@@ -42,7 +42,7 @@ public class DVDLibraryServiceLayerImpl implements DVDLibraryServiceLayer {
         
         dao.addDVD(dvd.getIdNum(), dvd);
         
-        auditDao.writeAuditEntry("DVD " + dvd.getIdNum() + " CREATED.");
+        //auditDao.writeAuditEntry("DVD " + dvd.getIdNum() + " CREATED.");
 
     }
 
@@ -64,7 +64,7 @@ public class DVDLibraryServiceLayerImpl implements DVDLibraryServiceLayer {
     public DVD removeDVD(String idNum) throws DVDLibraryPersistenceException {
 
         DVD removedDVD = dao.removeDVD(idNum);
-        auditDao.writeAuditEntry("DVD " + idNum + " REMOVED.");
+        //auditDao.writeAuditEntry("DVD " + idNum + " REMOVED.");
         return removedDVD;
 
     }
