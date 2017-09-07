@@ -1,0 +1,13 @@
+2017-07-15T20:08:03.844 : Item A1 dispensed.
+2017-07-15T20:10:29.971 : Item A2 dispensed.
+2017-07-15T20:17:13.598 : Item A1 dispensed.
+2017-07-18T22:00:49.978 : Item A1 dispensed.
+2017-07-20T20:39:27.794 : Item A2 dispensed.
+2017-07-20T20:40:25.680 : Item A3 dispensed.
+2017-09-06T23:06:07.379 : vendItem: Item A2 dispensed.2.00
+2017-09-06T23:06:17.292 : vendItem: Exception thrown: com.sg.vendingmachine.service.VendingMachineInsufficientFundsException: 
+ERROR: Not enough money for "M&Ms".
+2017-09-06T23:06:33.979 : vendItem: Exception thrown: com.sg.vendingmachine.service.VendingMachineNoItemInventoryException: 
+ERROR: That item is out of stock.
+2017-09-06T23:06:42.314 : vendItem: Exception thrown: java.lang.NullPointerException: 
+Looks like there's nothing in that slot.
