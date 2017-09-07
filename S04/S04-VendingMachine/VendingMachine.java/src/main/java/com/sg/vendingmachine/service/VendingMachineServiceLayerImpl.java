@@ -69,7 +69,7 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
             
         if (item.getItemInventory() == 0) {
 
-            throw new VendingMachineNoItemInventoryException("\nERROR: That item is out of stock.");
+            throw new VendingMachineNoItemInventoryException("\nERROR: " + item.getItemID() + " - " + item.getItemName() + " is out of stock.");
 
         }
 
