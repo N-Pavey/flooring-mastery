@@ -30,3 +30,4 @@ public interface VendingMachineServiceLayer {
     Change makeChange(VendingMachineItem item, BigDecimal totalFunds) throws VendingMachinePersistenceException;
     
 }
+
