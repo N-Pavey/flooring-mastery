@@ -21,11 +21,13 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     
     VendingMachineDao dao;
     VendingMachineAuditDao auditDao;
+    //Change change;
     
     public VendingMachineServiceLayerImpl(VendingMachineDao dao, VendingMachineAuditDao auditDao) {
         
         this.dao = dao;
         this.auditDao = auditDao;
+        //this.change = change;
         
     }
 
@@ -78,10 +80,20 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
             throw new VendingMachineInsufficientFundsException("\nERROR: Not enough money for \"" + item.getItemName() + "\".");
 
         }
-        
-        dao.vendItem(item);
 
+        dao.vendItem(item);
+        
         //auditDao.writeAuditEntry("Item " + item.getItemID() + " dispensed.");
+
+    }
+
+    @Override
+    public Change makeChange(VendingMachineItem item, BigDecimal totalFunds) throws VendingMachinePersistenceException {
+
+        totalFunds = totalFunds.subtract(item.getItemCost());
+        Change change = new Change(totalFunds);
+        
+        return change;
 
     }
     

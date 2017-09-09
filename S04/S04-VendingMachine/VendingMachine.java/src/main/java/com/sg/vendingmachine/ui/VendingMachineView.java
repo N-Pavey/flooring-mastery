@@ -132,11 +132,8 @@ public class VendingMachineView {
 
     }
 
-    public void displayPurchaseSuccessBanner(VendingMachineItem item, BigDecimal totalFunds) {
+    public void displayPurchaseSuccessBanner(VendingMachineItem item, Change change) {
 
-        totalFunds = totalFunds.subtract(item.getItemCost());
-        Change change = new Change(totalFunds);
-        
         io.print("\n" + item.getItemName() + " has been dispensed!");
         
         io.print("\nYour change is: ");

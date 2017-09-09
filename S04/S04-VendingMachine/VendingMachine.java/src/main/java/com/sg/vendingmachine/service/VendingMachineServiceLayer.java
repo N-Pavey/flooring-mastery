@@ -27,4 +27,6 @@ public interface VendingMachineServiceLayer {
 
     void vendItem(VendingMachineItem item, BigDecimal totalFunds) throws VendingMachinePersistenceException, VendingMachineInsufficientFundsException, VendingMachineNoItemInventoryException;
     
+    Change makeChange(VendingMachineItem item, BigDecimal totalFunds) throws VendingMachinePersistenceException;
+    
 }

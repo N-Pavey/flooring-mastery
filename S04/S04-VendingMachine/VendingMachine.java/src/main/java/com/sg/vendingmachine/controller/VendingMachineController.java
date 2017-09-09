@@ -111,7 +111,8 @@ public class VendingMachineController {
 
             VendingMachineItem item = service.getItem(itemID);
             service.vendItem(item, totalFunds);
-            view.displayPurchaseSuccessBanner(item, totalFunds);
+            Change change = service.makeChange(item, totalFunds);
+            view.displayPurchaseSuccessBanner(item, change);
 
         } catch (NullPointerException | VendingMachineNoItemInventoryException | VendingMachineInsufficientFundsException e) {
 
