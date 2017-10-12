@@ -16,6 +16,6 @@ public interface ProductDao {
     //necessary?
     //void addProduct(String productType, Product product);
     
-    Product findProduct(String productType) throws OrderPersistenceException ;
+    Product findProduct(String productType) throws OrderPersistenceException;
     
 }

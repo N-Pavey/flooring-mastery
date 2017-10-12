@@ -21,7 +21,7 @@ import java.util.Set;
  */
 public class TaxRateDaoFileImpl implements TaxRateDao {
     
-    private final Map<String, BigDecimal> taxRates = new HashMap<>();
+    private Map<String, BigDecimal> taxRates = new HashMap<>();
     
     public static final String TAXES_FILE = "taxes.txt";
     public static final String DELIMITER = ",";
@@ -47,7 +47,6 @@ public class TaxRateDaoFileImpl implements TaxRateDao {
 
             currentLine = scanner.nextLine();
             currentTokens = currentLine.split(DELIMITER);
-            System.out.println(currentTokens[0]);
             taxRates.put((currentTokens[0]), new BigDecimal(currentTokens[1]));
 
         }
@@ -64,10 +63,10 @@ public class TaxRateDaoFileImpl implements TaxRateDao {
 */
 
     @Override
-    public BigDecimal findTaxRate(String state) {
+    public BigDecimal findTaxRate(String state) throws OrderPersistenceException {
 
-        System.out.println(taxRates);
-        return new BigDecimal("6");
+        loadTaxes();
+        return taxRates.get(state);
 
     }
     
