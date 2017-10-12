@@ -1,0 +1,94 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.sg.flooringmastery.java.dao;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.util.Scanner;
+
+/**
+ *
+ * @author apprentice
+ */
+public class OrderNumberDaoFileImpl implements OrderNumberDao {
+    
+    private int orderNum = 0;
+    
+    public static final String ORDERNUM_FILE = "orderNum.txt";
+    
+    private void loadOrderNum() throws OrderPersistenceException {
+        
+        Scanner scanner;
+
+        try {
+
+            scanner = new Scanner(new BufferedReader(new FileReader(ORDERNUM_FILE)));
+
+        } catch (FileNotFoundException e) {
+
+            throw new OrderPersistenceException(" - Could not load order number data into memory.", e);
+
+        }
+
+        while (scanner.hasNextInt()) {
+
+            orderNum = scanner.nextInt();
+
+        }
+
+        scanner.close();
+        
+    }
+    
+    private void writeRoster() throws OrderPersistenceException {
+	    
+        PrintWriter out;
+
+        try {
+
+            out = new PrintWriter(new FileWriter(ORDERNUM_FILE));
+
+        } catch (IOException e) {
+
+            throw new OrderPersistenceException("Could not save new order number data.", e);
+
+        }
+
+        out.println(orderNum);
+        out.flush();
+        out.close();
+
+    }
+
+    @Override
+    public int findOrderNumber() throws OrderPersistenceException {
+
+        if (orderNum == 0) {
+            
+            loadOrderNum();
+            
+        }
+        
+        return orderNum;
+
+    }
+
+    @Override
+    public void increaseOrderNumber() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void saveOrderNumber() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+}
