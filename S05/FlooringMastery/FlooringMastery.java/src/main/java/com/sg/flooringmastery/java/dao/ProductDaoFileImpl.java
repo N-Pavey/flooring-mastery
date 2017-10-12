@@ -20,9 +20,9 @@ import java.util.Scanner;
  */
 public class ProductDaoFileImpl implements ProductDao {
     
-    private final Map<String, Product> products = new HashMap<>();
+    private Map<String, Product> products = new HashMap<>();
     
-    public static final String PRODUCTS_FILE = "test.txt";
+    public static final String PRODUCTS_FILE = "products.txt";
     public static final String DELIMITER = ",";
     
     private void loadProducts() throws OrderPersistenceException {
@@ -46,7 +46,8 @@ public class ProductDaoFileImpl implements ProductDao {
 
             currentLine = scanner.nextLine();
             currentTokens = currentLine.split(DELIMITER);
-            Product currentProduct = new Product(currentTokens[0]);
+            Product currentProduct = new Product();
+            currentProduct.setProductType(currentTokens[0]);
             currentProduct.setMaterialCostPerSqFt(new BigDecimal(currentTokens[1]));
             currentProduct.setLaborCostPerSqFt(new BigDecimal(currentTokens[2]));
 

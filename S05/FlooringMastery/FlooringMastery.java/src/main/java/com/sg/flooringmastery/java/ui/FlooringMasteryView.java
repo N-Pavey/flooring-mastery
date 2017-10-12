@@ -12,6 +12,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public class FlooringMasteryView {
     
     private UserIO io;
     
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     public FlooringMasteryView(UserIO io) {
 
@@ -204,9 +205,10 @@ public class FlooringMasteryView {
                 if (currentOrder.getOrderedDate().equals(date)) {
                     
                     io.print("\nOrder Number:         " + currentOrder.getOrderNum());
+                    io.print("Order Date:           " + currentOrder.getOrderedDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
                     io.print("Customer Name:        " + currentOrder.getCustomerName());
                     io.print("State:                " + currentOrder.getState());
-                    io.print("Tax Rate:            $" + currentOrder.getTaxRate());
+                    io.print("Tax Rate:             " + currentOrder.getTaxRate());
                     io.print("Product:              " + currentOrder.getProductType());
                     io.print("Area:                 " + currentOrder.getArea() + " sq ft");
                     io.print("Material Cost/Sq Ft: $" + currentOrder.getMaterialCostPerSqFt());

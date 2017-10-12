@@ -42,15 +42,6 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         
     }
 
-    public FlooringMasteryServiceLayerImpl(OrderDao orderDao, AuditDao auditDao) {
-
-        this.orderDao = orderDao;
-        this.auditDao = auditDao;
-        
-    }
-    
-    //make method to calculate order information
-
     @Override
     public Order addOrder(Order order) throws OrderPersistenceException, InvalidStateException, InvalidOrderInformationException {
 
@@ -69,14 +60,14 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     @Override
     public Order calculateOrderInfo(Order order) throws OrderPersistenceException {
         
-        Product product = new Product(order.getProductType());
+        Product product = productDao.findProduct(order.getProductType());
         
         int orderNum = orderNumDao.findOrderNumber();
         order.setOrderNum(orderNum);
+        orderNumDao.increaseOrderNumber();
         
         BigDecimal taxRate = taxRateDao.findTaxRate(order.getState());
         System.out.println(taxRate);
-        taxRate = taxRate.divide(new BigDecimal("100"), 3, RoundingMode.FLOOR);
         order.setTaxRate(taxRate);
         
         BigDecimal materialCostPerSqFt = product.getMaterialCostPerSqFt();
@@ -95,10 +86,11 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         laborCost = laborCost.setScale(2, RoundingMode.HALF_UP);
         order.setLaborCost(laborCost);
         
-        //Calculate tax
+        //Convert tax rate to percentage and calculate tax
+        taxRate = taxRate.divide(new BigDecimal("100"), 3, RoundingMode.FLOOR);
         BigDecimal subTotal = materialCost.add(laborCost);
         BigDecimal tax = subTotal.multiply(taxRate);
-        taxRate = taxRate.setScale(2, RoundingMode.HALF_UP);
+        tax = tax.setScale(2, RoundingMode.HALF_UP);
         order.setTax(tax);
         
         //Calculate total

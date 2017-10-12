@@ -83,7 +83,9 @@ public class OrderNumberDaoFileImpl implements OrderNumberDao {
 
     @Override
     public void increaseOrderNumber() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        orderNum++;
+        
     }
 
     @Override
