@@ -164,6 +164,37 @@ public class FlooringMasteryView {
         
     }
     
+    public boolean getOrderConfirmation(Order order) {
+        
+        io.print("\n--- New Order Information ---");
+        io.print("Order Number:         " + order.getOrderNum());
+        io.print("Order Date:           " + order.getOrderedDate().format(formatter));
+        io.print("Customer Name:        " + order.getCustomerName());
+        io.print("State:                " + order.getState());
+        io.print("Tax Rate:             " + order.getTaxRate() + "%");
+        io.print("Product:              " + order.getProductType());
+        io.print("Area:                 " + order.getArea() + " sq ft");
+        io.print("Material Cost/Sq Ft: $" + order.getMaterialCostPerSqFt());
+        io.print("Labor Cost/Sq Ft:    $" + order.getLaborCostPerSqFt());
+        io.print("Material Cost:       $" + order.getMaterialCost());
+        io.print("Labor Cost:          $" + order.getLaborCost());
+        io.print("Tax:                 $" + order.getTax());
+        io.print("Total:               $" + order.getTotalCost());
+        
+        String confirmOrder = io.readString("\nDoes the above order information look correct? (y/n)");
+        
+        if ("y".equalsIgnoreCase(confirmOrder)) {
+            
+            return true;
+            
+        } else {
+            
+            return false;
+            
+        }
+        
+    }
+    
     public void displayAddOrderBanner() {
         
         io.print("\n--- Create New Order ---");
@@ -176,6 +207,12 @@ public class FlooringMasteryView {
         
     }
     
+    public void displayAddCancelledBanner() {
+        
+        io.readString("\nThe order has been cancelled. Please hit enter to continue.");
+        
+    }
+    
     public void displayOrderDisplayBanner() {
         
         io.print("\n--- Display Orders ---");
@@ -184,8 +221,30 @@ public class FlooringMasteryView {
     
     public LocalDate getOrderDate() {
         
-        String date = io.readString("\nPlease enter the order date (MM/dd/yyyy)");
-        return LocalDate.parse(date, formatter);
+        boolean validEntry = false;
+        LocalDate date = null;
+        
+        while (!validEntry) {
+            
+            try {
+                
+                do {
+                    
+                    date = LocalDate.parse(io.readString("\nPlease enter the order date (MM/dd/yyyy)."), formatter);
+                    validEntry = true;
+                    
+                } while (date.toString().length() == 0 || date == null);
+                
+            } catch (DateTimeParseException e) {
+                
+                io.print("\nPlease enter the date in the correct format.");
+                validEntry = false;
+                
+            }
+            
+        }
+        
+        return date;
         
     }
     
@@ -205,10 +264,10 @@ public class FlooringMasteryView {
                 if (currentOrder.getOrderedDate().equals(date)) {
                     
                     io.print("\nOrder Number:         " + currentOrder.getOrderNum());
-                    io.print("Order Date:           " + currentOrder.getOrderedDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
+                    io.print("Order Date:           " + currentOrder.getOrderedDate().format(formatter));
                     io.print("Customer Name:        " + currentOrder.getCustomerName());
                     io.print("State:                " + currentOrder.getState());
-                    io.print("Tax Rate:             " + currentOrder.getTaxRate());
+                    io.print("Tax Rate:             " + currentOrder.getTaxRate() + "%");
                     io.print("Product:              " + currentOrder.getProductType());
                     io.print("Area:                 " + currentOrder.getArea() + " sq ft");
                     io.print("Material Cost/Sq Ft: $" + currentOrder.getMaterialCostPerSqFt());
@@ -242,13 +301,13 @@ public class FlooringMasteryView {
         
         if (order != null) {
             
-            io.print("\nWhich field would you like to edit?");
-            io.print("1. Order Date:    " + order.getOrderedDate());
-            io.print("2. Customer Name: " + order.getCustomerName());
-            io.print("3. State:         " + order.getState());
-            io.print("4. Product:       " + order.getProductType());
-            io.print("5. Area (sq ft):  " + order.getArea());
-            io.print("6. Go Back");
+            io.print("\n--- Order " + order.getOrderNum() + " ---");
+            io.print("1. Order Date:            " + order.getOrderedDate().format(formatter));
+            io.print("2. Customer Name:         " + order.getCustomerName());
+            io.print("3. State:                 " + order.getState());
+            io.print("4. Product:               " + order.getProductType());
+            io.print("5. Area:                  " + order.getArea() + " sq ft");
+            io.print("6. Return");
             return io.readInt("\nPlease choose from the menu.", 1, 6);
             
         } else {
@@ -259,24 +318,78 @@ public class FlooringMasteryView {
         }
         
     }
-    
-    public void editCustomerName(Order order) {
+
+    public Order editOrderDate(Order order) {
+
+        boolean validEntry = false;
+        String userInput = null;
         
-        String customerName = io.readString("\nPlease enter the customer name.");
-        order.setCustomerName(customerName);
+        LocalDate date = order.getOrderedDate();
+        LocalDate newDate = null;
+        
+        //If new info is entered, verify it's in a good format with the below if statement.
+        //If good, replace old info with the new. Otherwise, return the old.
+        while (!validEntry) {
+            
+            userInput = io.readString("\nPlease enter the order date (MM/dd/yyyy).");
+            
+            if (userInput != null && !"".equals(userInput)) {
+            
+                try {
+
+                    newDate = LocalDate.parse(userInput, formatter);
+                    validEntry = true;
+
+                } catch (DateTimeParseException e) {
+
+                    io.print("\nPlease enter the date in the correct format.");
+                    validEntry = false;
+
+                }
+                
+                date = newDate;
+
+            } else {
+                
+                validEntry = true;
+                
+            }
+            
+        }
+        
+        order.setOrderedDate(date);
+        return order;
+
+    }
+    
+    public Order editCustomerName(Order order) {
+        
+        String customerName = order.getCustomerName();
+        String newCustomerName = null;
+        
+        newCustomerName = io.readString("\nPlease enter the new customer name.");
+        
+        if (newCustomerName != null && !"".equals(newCustomerName)) {
+            
+            order.setCustomerName(newCustomerName);
+            
+        }
+        
+        return order;
         
     }
     
-    public void editState(Order order) {
+    public Order editState(Order order) {
         
-        String state = null;
+        String state = order.getState();
         
         io.print("\nAvailable States");
         io.print("1. OH");
         io.print("2. PA");
         io.print("3. MI");
         io.print("4. IN");
-        int stateSelection = io.readInt("Please choose from the menu.", 1, 4);
+        io.print("5. Cancel");
+        int stateSelection = io.readInt("Please choose from the menu.", 1, 5);
         
         switch (stateSelection) {
             
@@ -292,25 +405,30 @@ public class FlooringMasteryView {
             case 4:
                 state = "IN";
                 break;
+            case 5:
+                state = state;
+                break;
             default:
                 displayUnknownCommandBanner();
             
         }
         
         order.setState(state);
+        return order;
         
     }
     
-    public void editProductType(Order order) {
+    public Order editProductType(Order order) {
         
-        String product = null;
+        String product = order.getProductType();
         
         io.print("\nFlooring Options");
         io.print("1. Carpet | Cost / Sq. Ft. = $2.25 | Labor Cost / Sq. Ft. = $2.10");
         io.print("2. Laminate | Cost / Sq. Ft. = $1.75 | Labor Cost / Sq. Ft. = $2.10");
         io.print("3. Tile | Cost / Sq. Ft. = $3.50 | Labor Cost / Sq. Ft. = $4.15");
         io.print("4. Wood | Cost / Sq. Ft. = $5.15 | Labor Cost / Sq. Ft. = $4.75");
-        int floorSelection = io.readInt("Please choose from the menu.", 1, 4);
+        io.print("5. Cancel");
+        int floorSelection = io.readInt("Please choose from the menu.", 1, 5);
         
         switch (floorSelection) {
             
@@ -326,42 +444,83 @@ public class FlooringMasteryView {
             case 4:
                 product = "Wood";
                 break;
+            case 5:
+                product = product;
+                break;
             default:
                 displayUnknownCommandBanner();
             
         }
         
         order.setProductType(product);
+        return order;
         
     }
     
-    public void editArea(Order order) {
+    public Order editArea(Order order) {
         
         boolean validEntry = false;
-        BigDecimal area = BigDecimal.ZERO;
+        String userInput = null;
+        BigDecimal area = order.getArea();
+        BigDecimal newArea = BigDecimal.ZERO;
+        
         
         while (!validEntry) {
             
-            try {
+            userInput = io.readString("\nPlease enter the new square footage.");
             
-                do {
-                    
-                    area = new BigDecimal(io.readString("\nPlease enter the square footage."));
-                    area = area.setScale(0, RoundingMode.CEILING);
-                    validEntry = true;
-                    
-                } while (area.compareTo(BigDecimal.ZERO) <= 0);
+            if (userInput != null && !"".equals(userInput)) {
+            
+                try {
+
+                    do {
+
+                        newArea = new BigDecimal(userInput);
+                        newArea = newArea.setScale(0, RoundingMode.CEILING);
+                        validEntry = true;
+
+                    } while (newArea.compareTo(BigDecimal.ZERO) <= 0);
+
+                } catch (NumberFormatException e) {
+
+                    System.out.println("Please make sure you're entering a number and that it's above 0.");
+                    validEntry = false;
+
+                }
                 
-            } catch (NumberFormatException e) {
+                area = newArea;
                 
-                System.out.println("Please make sure you're entering a number.");
-                validEntry = false;
+            } else {
+                
+                validEntry = true;
                 
             }
             
         }
         
         order.setArea(area);
+        return order;
+        
+    }
+    
+    public void displayEditedOrderInfo(Order order) {
+        
+        io.print("\n--- Updated Information for Order " + order.getOrderNum() + " ---");
+        io.print("Order Number:         " + order.getOrderNum());
+        io.print("Order Date:           " + order.getOrderedDate().format(formatter));
+        io.print("Customer Name:        " + order.getCustomerName());
+        io.print("State:                " + order.getState());
+        io.print("Tax Rate:             " + order.getTaxRate() + "%");
+        io.print("Product:              " + order.getProductType());
+        io.print("Area:                 " + order.getArea() + " sq ft");
+        io.print("Material Cost/Sq Ft: $" + order.getMaterialCostPerSqFt());
+        io.print("Labor Cost/Sq Ft:    $" + order.getLaborCostPerSqFt());
+        io.print("Material Cost:       $" + order.getMaterialCost());
+        io.print("Labor Cost:          $" + order.getLaborCost());
+        io.print("Tax:                 $" + order.getTax());
+        io.print("Total:               $" + order.getTotalCost());
+        
+        io.readString("\nThe order has been updated. Please hit enter to continue.");
         
     }
 
@@ -375,10 +534,11 @@ public class FlooringMasteryView {
 
         if (order != null) {
             
-            io.print("\nOrder Number:         " + order.getOrderNum());
+            io.print("Order Number:         " + order.getOrderNum());
+            io.print("Order Date:           " + order.getOrderedDate().format(formatter));
             io.print("Customer Name:        " + order.getCustomerName());
             io.print("State:                " + order.getState());
-            io.print("Tax Rate:            $" + order.getTaxRate());
+            io.print("Tax Rate:             " + order.getTaxRate() + "%");
             io.print("Product:              " + order.getProductType());
             io.print("Area:                 " + order.getArea() + " sq ft");
             io.print("Material Cost/Sq Ft: $" + order.getMaterialCostPerSqFt());
@@ -404,7 +564,21 @@ public class FlooringMasteryView {
             
             io.print("\nThere doesn't appear to be an order.");
             return false;
+            
         }
+        
+    }
+
+    public void displayRemoveOrderSuccessBanner() {
+
+        io.readString("\nThe order has been removed. Please hit enter to continue.");
+        
+    }
+
+    public void displayRemoveOrderCancelledBanner() {
+
+        io.readString("\nThe order has been kept. Please hit enter to continue.");
+
     }
 
     public void displayUnknownCommandBanner() {

@@ -47,10 +47,8 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
         validateOrderInfo(order);
         
-        order = calculateOrderInfo(order);
-        
         orderDao.addOrder(order.getOrderNum(), order);
-        
+        orderNumDao.increaseOrderNumber();
         auditDao.writeAuditEntry("Order " + order.getOrderNum() + " created.");
         
         return order;
@@ -58,16 +56,18 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
     
     @Override
-    public Order calculateOrderInfo(Order order) throws OrderPersistenceException {
+    public Order calculateOrderInfo(Order order, boolean newOrder) throws OrderPersistenceException {
         
         Product product = productDao.findProduct(order.getProductType());
         
-        int orderNum = orderNumDao.findOrderNumber();
-        order.setOrderNum(orderNum);
-        orderNumDao.increaseOrderNumber();
+        if (newOrder) {
+            
+            int orderNum = orderNumDao.findOrderNumber();
+            order.setOrderNum(orderNum);
+            
+        }
         
         BigDecimal taxRate = taxRateDao.findTaxRate(order.getState());
-        System.out.println(taxRate);
         order.setTaxRate(taxRate);
         
         BigDecimal materialCostPerSqFt = product.getMaterialCostPerSqFt();
@@ -116,8 +116,10 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public Order editOrder(Order order) throws OrderPersistenceException {
+    public Order editOrder(Order order) throws OrderPersistenceException, InvalidOrderInformationException {
 
+        validateOrderInfo(order);
+        
         auditDao.writeAuditEntry("Order " + order.getOrderNum() + " edited.");
         
         return orderDao.editOrder(order.getOrderNum(), order);

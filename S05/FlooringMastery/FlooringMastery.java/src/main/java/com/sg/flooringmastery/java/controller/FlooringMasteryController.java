@@ -104,21 +104,35 @@ public class FlooringMasteryController {
         
         view.displayAddOrderBanner();
         boolean hasErrors = false;
+        boolean confirmOrder = false;
         
         do {
             
             Order newOrder = view.getNewOrderInfo();
             
-            try {
+            //Setting boolean to true - new order needs order num
+            newOrder = service.calculateOrderInfo(newOrder, true);
+            
+            confirmOrder = view.getOrderConfirmation(newOrder);
+            
+            if (confirmOrder) {
+            
+                try {
+
+                    service.addOrder(newOrder);
+                    view.displayAddOrderSuccessBanner();
+                    hasErrors = false;
+
+                } catch (InvalidStateException | InvalidOrderInformationException e) {
+
+                    hasErrors = true;
+                    view.displayErrorMessage(e.getMessage());
+
+                }
                 
-                service.addOrder(newOrder);
-                view.displayAddOrderSuccessBanner();
-                hasErrors = false;
+            } else {
                 
-            } catch (InvalidStateException | InvalidOrderInformationException e) {
-                
-                hasErrors = true;
-                view.displayErrorMessage(e.getMessage());
+                view.displayAddCancelledBanner();
                 
             }
             
@@ -139,25 +153,30 @@ public class FlooringMasteryController {
             switch (menuSelection) {
                 
                 case 1:
-                    editCustomerName(order);
+                    editOrderDate(order);
                     break;
                 case 2:
-                    editState(order);
+                    editCustomerName(order);
                     break;
                 case 3:
-                    editProductType(order);
+                    editState(order);
                     break;
                 case 4:
-                    editArea(order);
+                    editProductType(order);
                     break;
                 case 5:
+                    editArea(order);
+                    break;
+                case 6:
                     keepEditing = false;
                     break;
                 default:
                     unknownCommand();
+                    
             }
             
         }
+        
     }
 
     private Order getOrderEdit() throws OrderPersistenceException {
@@ -176,30 +195,57 @@ public class FlooringMasteryController {
 
     }
 
+    private void editOrderDate(Order order) throws OrderPersistenceException {
+        
+        order = view.editOrderDate(order);
+        updateOrder(order);
+        
+    }
+    
     private void editCustomerName(Order order) throws OrderPersistenceException {
 
-        view.editCustomerName(order);
-        order = service.editOrder(order);
+        order = view.editCustomerName(order);
+        updateOrder(order);
+        
     }
 
     private void editState(Order order) throws OrderPersistenceException {
 
-        view.editState(order);
-        order = service.editOrder(order);
+        order = view.editState(order);
+        updateOrder(order);
         
     }
 
     private void editProductType(Order order) throws OrderPersistenceException {
 
-        view.editProductType(order);
-        order = service.editOrder(order);
+        order = view.editProductType(order);
+        updateOrder(order);
         
     }
 
     private void editArea(Order order) throws OrderPersistenceException {
 
-        view.editArea(order);
-        order = service.editOrder(order);
+        order = view.editArea(order);
+        updateOrder(order);
+        
+    }
+    
+    private void updateOrder(Order order) throws OrderPersistenceException {
+        
+        //Setting boolean to false as it's not a new order - doesn't need a new order num    
+        order = service.calculateOrderInfo(order, false);
+
+        try {
+
+            service.editOrder(order);
+
+        } catch (InvalidOrderInformationException e) {
+            
+            view.displayErrorMessage(e.getMessage());
+
+        }
+        
+        view.displayEditedOrderInfo(order);
         
     }
     
@@ -214,6 +260,11 @@ public class FlooringMasteryController {
         if (removeOrder) {
             
             service.removeOrder(date, orderNum);
+            view.displayRemoveOrderSuccessBanner();
+            
+        } else {
+            
+            view.displayRemoveOrderCancelledBanner();
             
         }
         

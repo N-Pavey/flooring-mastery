@@ -46,16 +46,15 @@ public class OrderDaoFileImpl implements OrderDao {
                 .filter(o -> o.getOrderedDate().equals(date))
                 .filter(o -> o.getOrderNum() == orderNum)
                 .findFirst()
-                .get();
+                .orElse(null);
 
     }
 
-    //neccessary?
     @Override
     public Order editOrder(int orderNum, Order order) {
 
-        Order newOrder = orders.put(orderNum, order);
-        return newOrder;
+        Order editedOrder = orders.put(orderNum, order);
+        return editedOrder;
 
     }
 
