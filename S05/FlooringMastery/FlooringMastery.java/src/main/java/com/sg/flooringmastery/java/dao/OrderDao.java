@@ -15,11 +15,11 @@ import java.util.List;
  */
 public interface OrderDao {
     
-    Order addOrder (int orderNum, Order order);
+    Order addOrder (int orderNum, Order order) throws OrderPersistenceException;
     
-    List<Order> findOrdersByDate(LocalDate date);
+    List<Order> findOrdersByDate(LocalDate date) throws OrderPersistenceException;
     
-    Order findOrderByNumber(LocalDate date, int orderNum);
+    Order findOrderByNumber(LocalDate date, int orderNum) throws OrderPersistenceException;
     
     Order editOrder(int orderNum, Order order);
     

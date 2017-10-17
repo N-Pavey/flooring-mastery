@@ -257,7 +257,7 @@ public class FlooringMasteryView {
     
     public void displayOrders(List<Order> orderList, LocalDate date) {
         
-        if (orderList.size() != 0) {
+        if (!orderList.isEmpty()) {
             
             for (Order currentOrder : orderList) {
                 

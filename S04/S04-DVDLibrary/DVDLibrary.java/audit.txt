@@ -10,3 +10,4 @@
 2017-09-04T17:57:23.829 : editDVD: 0002
 2017-09-04T17:57:46.998 : addDVD: ID: 12345 | Title: test | Release Date: 0001-01-01
 2017-09-04T17:58:19.099 : removeDVD: 12345
+2017-10-16T20:56:05.931 : addDVD: ID: 0003 | Title: test | Release Date: 1990-04-30
