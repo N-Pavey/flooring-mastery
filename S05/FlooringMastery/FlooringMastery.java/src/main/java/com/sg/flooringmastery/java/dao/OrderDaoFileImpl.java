@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +29,7 @@ import java.util.stream.Collectors;
 public class OrderDaoFileImpl implements OrderDao {
     
     private Map<Integer, Order> orders = new HashMap<>();
+    private Map<Integer, Order> removedOrders = new HashMap<>();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
     
     public static final String DELIMITER = ",";
@@ -138,7 +137,7 @@ public class OrderDaoFileImpl implements OrderDao {
 
         loadOrder(order.getOrderedDate());
         Order newOrder = orders.put(orderNum, order);
-        writeOrder(order.getOrderedDate());
+        //writeOrder(order.getOrderedDate());
         return newOrder;
 
     }
@@ -168,24 +167,57 @@ public class OrderDaoFileImpl implements OrderDao {
     }
 
     @Override
-    public Order editOrder(int orderNum, Order order) {
+    public Order editOrder(int orderNum, Order order) throws OrderPersistenceException {
 
+        loadOrder(order.getOrderedDate());
         Order editedOrder = orders.put(orderNum, order);
+        //writeOrder(order.getOrderedDate());
         return editedOrder;
 
     }
 
     @Override
-    public Order removeOrder(LocalDate date, int orderNum) {
+    public Order removeOrder(int orderNum, Order order) throws OrderPersistenceException {
 
+        removedOrders.put(orderNum, order);
         Order removedOrder = orders.remove(orderNum);
+        //writeOrder(order.getOrderedDate());
         return removedOrder;
         
     }
 
     @Override
-    public void saveOrders() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void saveOrders() throws OrderPersistenceException {
+
+        //Iterate through the orders Map, grab order dates to write to file
+        for (Map.Entry<Integer, Order> entry : orders.entrySet()) {
+            
+            Order order = entry.getValue();
+            writeOrder(order.getOrderedDate());
+            
+        }
+        
+        //Iterate through the removed orders Map, grab order dates to write to file
+        for (Map.Entry<Integer, Order> entry : removedOrders.entrySet()) {
+            
+            Order removed = entry.getValue();
+            removedOrders.remove(removed.getOrderNum());
+            writeOrder(removed.getOrderedDate());
+            
+        }
+        
+        //Iterate through directory of files AFTER entries have been added/removed above
+        //If file is empty, it gets removed to keep directory as clean as possible
+        for (File file : listOfFiles) {
+            
+            if (file.length() == 0) {
+                
+                file.delete();
+                
+            }
+            
+        }
+
     }
     
 }

@@ -7,6 +7,7 @@ package com.sg.flooringmastery.java.service;
 
 import com.sg.flooringmastery.java.dao.AuditDao;
 import com.sg.flooringmastery.java.dao.OrderDao;
+import com.sg.flooringmastery.java.dao.OrderModeDao;
 import com.sg.flooringmastery.java.dao.OrderNumberDao;
 import com.sg.flooringmastery.java.dao.OrderPersistenceException;
 import com.sg.flooringmastery.java.dao.ProductDao;
@@ -28,22 +29,24 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     ProductDao productDao;
     TaxRateDao taxRateDao;
     OrderNumberDao orderNumDao;
+    OrderModeDao orderModeDao;
     AuditDao auditDao;
     
     private int orderNum;
     
-    public FlooringMasteryServiceLayerImpl(OrderDao orderDao, ProductDao productDao, TaxRateDao taxRateDao, OrderNumberDao orderNumDao, AuditDao auditDao) {
+    public FlooringMasteryServiceLayerImpl(OrderDao orderDao, ProductDao productDao, TaxRateDao taxRateDao, OrderNumberDao orderNumDao, OrderModeDao orderModeDao, AuditDao auditDao) {
         
         this.orderDao = orderDao;
         this.productDao = productDao;
         this.taxRateDao = taxRateDao;
         this.orderNumDao = orderNumDao;
+        this.orderModeDao = orderModeDao;
         this.auditDao = auditDao;
         
     }
 
     @Override
-    public Order addOrder(Order order) throws OrderPersistenceException, InvalidStateException, InvalidOrderInformationException {
+    public Order addOrder(Order order) throws OrderPersistenceException, InvalidOrderInformationException {
 
         validateOrderInfo(order);
         
@@ -127,9 +130,9 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public Order removeOrder(LocalDate date, int orderNum) throws OrderPersistenceException {
+    public Order removeOrder(int orderNum, Order order) throws OrderPersistenceException {
 
-        Order removedOrder = orderDao.removeOrder(date, orderNum);
+        Order removedOrder = orderDao.removeOrder(orderNum, order);
         
         auditDao.writeAuditEntry("Order " + orderNum + " removed.");
         
@@ -138,8 +141,26 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public void saveWork() throws OrderPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean saveWork() throws OrderPersistenceException {
+
+        String mode = orderModeDao.findOrderMode();
+        
+        //Return false if unable to save - Test Mode
+        //Return true if able to save - Prod Mode
+        if ("p".equalsIgnoreCase(mode)) {
+            
+            orderDao.saveOrders();
+            orderNumDao.saveOrderNumber();
+            auditDao.writeAuditEntry("Orders/Changes have been saved.");
+            return true;
+            
+        } else {
+            
+            auditDao.writeAuditEntry("Orders/Changes have not been saved.");
+            return false;
+            
+        }
+
     }
     
     private void validateOrderInfo(Order order) throws InvalidOrderInformationException {

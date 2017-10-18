@@ -10,6 +10,8 @@ import com.sg.flooringmastery.java.dao.AuditDao;
 import com.sg.flooringmastery.java.dao.AuditDaoFileImpl;
 import com.sg.flooringmastery.java.dao.OrderDao;
 import com.sg.flooringmastery.java.dao.OrderDaoFileImpl;
+import com.sg.flooringmastery.java.dao.OrderModeDao;
+import com.sg.flooringmastery.java.dao.OrderModeDaoFileImpl;
 import com.sg.flooringmastery.java.dao.OrderNumberDao;
 import com.sg.flooringmastery.java.dao.OrderNumberDaoFileImpl;
 import com.sg.flooringmastery.java.dao.ProductDao;
@@ -37,7 +39,8 @@ public class App {
         ProductDao productDao = new ProductDaoFileImpl();
         TaxRateDao taxRateDao = new TaxRateDaoFileImpl();
         OrderNumberDao orderNumDao = new OrderNumberDaoFileImpl();
-        FlooringMasteryServiceLayer myService = new FlooringMasteryServiceLayerImpl(orderDao, productDao, taxRateDao, orderNumDao, auditDao);
+        OrderModeDao orderModeDao = new OrderModeDaoFileImpl();
+        FlooringMasteryServiceLayer myService = new FlooringMasteryServiceLayerImpl(orderDao, productDao, taxRateDao, orderNumDao, orderModeDao, auditDao);
         FlooringMasteryController controller = new FlooringMasteryController(myService, myView);
         controller.run();
         

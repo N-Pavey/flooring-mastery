@@ -21,10 +21,10 @@ public interface OrderDao {
     
     Order findOrderByNumber(LocalDate date, int orderNum) throws OrderPersistenceException;
     
-    Order editOrder(int orderNum, Order order);
+    Order editOrder(int orderNum, Order order) throws OrderPersistenceException;
     
-    Order removeOrder(LocalDate date, int orderNum);
+    Order removeOrder(int orderNum, Order order) throws OrderPersistenceException;
     
-    void saveOrders();
+    void saveOrders() throws OrderPersistenceException;
     
 }

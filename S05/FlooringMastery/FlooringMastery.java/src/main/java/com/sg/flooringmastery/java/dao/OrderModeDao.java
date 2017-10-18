@@ -9,12 +9,8 @@ package com.sg.flooringmastery.java.dao;
  *
  * @author apprentice
  */
-public interface OrderNumberDao {
+public interface OrderModeDao {
     
-    int findOrderNumber() throws OrderPersistenceException;
-    
-    void increaseOrderNumber();
-    
-    void saveOrderNumber() throws OrderPersistenceException;
+    String findOrderMode() throws OrderPersistenceException;
     
 }

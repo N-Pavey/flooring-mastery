@@ -12,7 +12,6 @@ import com.sg.flooringmastery.java.dto.Order;
 import com.sg.flooringmastery.java.service.FlooringMasteryServiceLayer;
 import com.sg.flooringmastery.java.service.FlooringMasteryServiceLayerImpl;
 import com.sg.flooringmastery.java.service.InvalidOrderInformationException;
-import com.sg.flooringmastery.java.service.InvalidStateException;
 import com.sg.flooringmastery.java.ui.FlooringMasteryView;
 import com.sg.flooringmastery.java.ui.UserIO;
 import com.sg.flooringmastery.java.ui.UserIOConsoleImpl;
@@ -63,7 +62,7 @@ public class FlooringMasteryController {
                         removeOrder();
                         break;
                     case 5:
-                        io.print("SAVE WORK");
+                        saveWork();
                         break;
                     case 6:
                         keepGoing = false;
@@ -123,7 +122,7 @@ public class FlooringMasteryController {
                     view.displayAddOrderSuccessBanner();
                     hasErrors = false;
 
-                } catch (InvalidStateException | InvalidOrderInformationException e) {
+                } catch (InvalidOrderInformationException e) {
 
                     hasErrors = true;
                     view.displayErrorMessage(e.getMessage());
@@ -259,7 +258,7 @@ public class FlooringMasteryController {
         
         if (removeOrder) {
             
-            service.removeOrder(date, orderNum);
+            service.removeOrder(orderNum, order);
             view.displayRemoveOrderSuccessBanner();
             
         } else {
@@ -267,6 +266,12 @@ public class FlooringMasteryController {
             view.displayRemoveOrderCancelledBanner();
             
         }
+        
+    }
+    
+    private void saveWork() throws OrderPersistenceException {
+        
+        boolean workSaved = service.saveWork();
         
     }
 

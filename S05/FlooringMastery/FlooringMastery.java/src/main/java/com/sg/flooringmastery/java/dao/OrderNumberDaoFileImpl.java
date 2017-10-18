@@ -48,7 +48,7 @@ public class OrderNumberDaoFileImpl implements OrderNumberDao {
         
     }
     
-    private void writeRoster() throws OrderPersistenceException {
+    private void writeOrderNum() throws OrderPersistenceException {
 	    
         PrintWriter out;
 
@@ -71,6 +71,7 @@ public class OrderNumberDaoFileImpl implements OrderNumberDao {
     @Override
     public int findOrderNumber() throws OrderPersistenceException {
 
+        //if orderNum = 0, then new orders haven't been created yet and orderNum needs to be loaded in.
         if (orderNum == 0) {
             
             loadOrderNum();
@@ -89,8 +90,16 @@ public class OrderNumberDaoFileImpl implements OrderNumberDao {
     }
 
     @Override
-    public void saveOrderNumber() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void saveOrderNumber() throws OrderPersistenceException {
+
+        //if orderNum is 0, then new orders weren't created and orderNum was not updated
+        //orderNum should then NOT be updated in the file
+        if (orderNum != 0) {
+            
+            writeOrderNum();
+            
+        }
+
     }
     
 }

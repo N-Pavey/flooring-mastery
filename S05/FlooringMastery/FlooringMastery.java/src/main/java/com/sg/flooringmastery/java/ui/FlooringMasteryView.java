@@ -49,6 +49,7 @@ public class FlooringMasteryView {
         
         boolean validEntry = false;
         LocalDate date = null;
+        String customerName = null;
         String state = null;
         String product = null;
         BigDecimal area = BigDecimal.ZERO;
@@ -73,7 +74,24 @@ public class FlooringMasteryView {
             
         }
         
-        String customerName = io.readString("\nPlease enter your name.");
+        validEntry = false;
+        
+        while(!validEntry) {
+        
+            customerName = io.readString("\nPlease enter your name.");
+            
+            if (customerName.contains(",")) {
+                
+                io.print("\nPlease enter a name without commas (,)");
+                validEntry = false;
+                
+            } else {
+                
+                validEntry = true;
+                
+            }
+            
+        }
         
         //Get the state
         io.print("\nAvailable States");
@@ -366,8 +384,24 @@ public class FlooringMasteryView {
         
         String customerName = order.getCustomerName();
         String newCustomerName = null;
+        boolean validEntry = false;
         
-        newCustomerName = io.readString("\nPlease enter the new customer name.");
+        while(!validEntry) {
+        
+            newCustomerName = io.readString("\nPlease enter the new customer name.");
+            
+            if (newCustomerName.contains(",")) {
+                
+                io.print("\nPlease enter a name without commas (,)");
+                validEntry = false;
+                
+            } else {
+                
+                validEntry = true;
+                
+            }
+            
+        }
         
         if (newCustomerName != null && !"".equals(newCustomerName)) {
             
@@ -571,7 +605,7 @@ public class FlooringMasteryView {
 
     public void displayRemoveOrderSuccessBanner() {
 
-        io.readString("\nThe order has been removed. Please hit enter to continue.");
+        io.readString("\nThe order has been marked for deletion. Please hit enter to continue.");
         
     }
 

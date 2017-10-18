@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface FlooringMasteryServiceLayer {
     
-    Order addOrder(Order order) throws OrderPersistenceException, InvalidStateException, InvalidOrderInformationException;
+    Order addOrder(Order order) throws OrderPersistenceException, InvalidOrderInformationException;
     
     Order calculateOrderInfo(Order order, boolean newOrder) throws OrderPersistenceException;
     
@@ -26,8 +26,8 @@ public interface FlooringMasteryServiceLayer {
     
     Order editOrder(Order order) throws OrderPersistenceException, InvalidOrderInformationException;
     
-    Order removeOrder(LocalDate date, int orderNum) throws OrderPersistenceException;
+    Order removeOrder(int orderNum, Order order) throws OrderPersistenceException;
     
-    void saveWork() throws OrderPersistenceException;
+    boolean saveWork() throws OrderPersistenceException;
     
 }
