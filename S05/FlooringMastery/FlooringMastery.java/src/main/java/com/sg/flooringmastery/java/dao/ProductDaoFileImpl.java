@@ -59,13 +59,6 @@ public class ProductDaoFileImpl implements ProductDao {
 
     }
 
-    /*necessary?
-    @Override
-    public void addProduct(String productType, Product product) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    */
-
     @Override
     public Product findProduct(String productType) throws OrderPersistenceException {
 

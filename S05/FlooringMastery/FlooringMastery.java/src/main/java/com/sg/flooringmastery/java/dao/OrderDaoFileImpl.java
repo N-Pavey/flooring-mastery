@@ -95,11 +95,11 @@ public class OrderDaoFileImpl implements OrderDao {
         
         PrintWriter out;
 
-        File newOrder = new File("orders", "Orders_" + date.format(formatter).toString() + ".txt");
+        File order = new File("orders", "Orders_" + date.format(formatter).toString() + ".txt");
         
         try {
             
-            out = new PrintWriter(new FileWriter(newOrder));
+            out = new PrintWriter(new FileWriter(order));
             
         } catch (IOException e) {
             
@@ -127,6 +127,14 @@ public class OrderDaoFileImpl implements OrderDao {
             out.flush();
 
         }
+        
+        //Iterate through directory of files AFTER entries have been added/removed above
+        //If file is empty, it gets removed to keep directory as clean as possible
+        if (order.length() == 0) {
+
+            order.delete();
+
+        }
 
         out.close();    
         
@@ -135,7 +143,7 @@ public class OrderDaoFileImpl implements OrderDao {
     @Override
     public Order addOrder(int orderNum, Order order) throws OrderPersistenceException {
 
-        loadOrder(order.getOrderedDate());
+        //loadOrder(order.getOrderedDate());
         Order newOrder = orders.put(orderNum, order);
         //writeOrder(order.getOrderedDate());
         return newOrder;
@@ -203,18 +211,6 @@ public class OrderDaoFileImpl implements OrderDao {
             Order removed = entry.getValue();
             removedOrders.remove(removed.getOrderNum());
             writeOrder(removed.getOrderedDate());
-            
-        }
-        
-        //Iterate through directory of files AFTER entries have been added/removed above
-        //If file is empty, it gets removed to keep directory as clean as possible
-        for (File file : listOfFiles) {
-            
-            if (file.length() == 0) {
-                
-                file.delete();
-                
-            }
             
         }
 

@@ -1,0 +1,517 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.sg.flooringmastery.java.service;
+
+import com.sg.flooringmastery.java.dao.AuditDao;
+import com.sg.flooringmastery.java.dao.AuditDaoFileImpl;
+import com.sg.flooringmastery.java.dao.OrderDao;
+import com.sg.flooringmastery.java.dao.OrderDaoStubImpl;
+import com.sg.flooringmastery.java.dao.OrderModeDao;
+import com.sg.flooringmastery.java.dao.OrderModeDaoFileImpl;
+import com.sg.flooringmastery.java.dao.OrderNumberDao;
+import com.sg.flooringmastery.java.dao.OrderNumberDaoFileImpl;
+import com.sg.flooringmastery.java.dao.OrderPersistenceException;
+import com.sg.flooringmastery.java.dao.ProductDao;
+import com.sg.flooringmastery.java.dao.ProductDaoFileImpl;
+import com.sg.flooringmastery.java.dao.TaxRateDao;
+import com.sg.flooringmastery.java.dao.TaxRateDaoFileImpl;
+import com.sg.flooringmastery.java.dto.Order;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author apprentice
+ */
+public class FlooringMasteryServiceLayerTest {
+    
+    private FlooringMasteryServiceLayer service;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    
+    public FlooringMasteryServiceLayerTest() {
+        
+        OrderDao orderDao = new OrderDaoStubImpl();
+        ProductDao productDao = new ProductDaoFileImpl();
+        TaxRateDao taxRateDao = new TaxRateDaoFileImpl();
+        OrderNumberDao orderNumDao = new OrderNumberDaoFileImpl();
+        OrderModeDao orderModeDao = new OrderModeDaoFileImpl();
+        AuditDao auditDao = new AuditDaoFileImpl();
+        
+        service = new FlooringMasteryServiceLayerImpl(orderDao, productDao, taxRateDao, orderNumDao, orderModeDao, auditDao);
+        
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+    /**
+     * Test of addOrder method, of class FlooringMasteryServiceLayer.
+     */
+    @Test
+    public void testAddOrder() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderNum(200);
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("OH");
+        order.setTaxRate(new BigDecimal("6.25"));
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
+        order.setLaborCostPerSqFt(new BigDecimal("2.10"));
+        order.setMaterialCost(new BigDecimal("112.50"));
+        order.setLaborCost(new BigDecimal("105.00"));
+        order.setTax(new BigDecimal("13.49"));
+        order.setTotalCost(new BigDecimal("230.99"));
+        
+        service.addOrder(order);
+        
+    }
+    
+    @Test
+    public void testAddOrderInvalidInfoNoName() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderNum(200);
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("");
+        order.setState("OH");
+        order.setTaxRate(new BigDecimal("6.25"));
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
+        order.setLaborCostPerSqFt(new BigDecimal("2.10"));
+        order.setMaterialCost(new BigDecimal("112.50"));
+        order.setLaborCost(new BigDecimal("105.00"));
+        order.setTax(new BigDecimal("13.49"));
+        order.setTotalCost(new BigDecimal("230.99"));
+        
+        try {
+            
+            service.addOrder(order);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testAddOrderEmptyDateInvalidFormat() throws Exception {
+        
+        try {
+            
+            Order order = new Order();
+            order.setOrderNum(200);
+            order.setOrderedDate(LocalDate.parse("", formatter));
+            order.setCustomerName("John");
+            order.setState("OH");
+            order.setTaxRate(new BigDecimal("6.25"));
+            order.setProductType("Carpet");
+            order.setArea(new BigDecimal("50"));
+            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
+            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
+            order.setMaterialCost(new BigDecimal("112.50"));
+            order.setLaborCost(new BigDecimal("105.00"));
+            order.setTax(new BigDecimal("13.49"));
+            order.setTotalCost(new BigDecimal("230.99"));
+            
+            service.addOrder(order);
+            fail("Expected DateTimeParseException was not thrown.");
+            
+        } catch (DateTimeParseException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testAddOrderDateInvalidFormat() throws Exception {
+        
+        try {
+            
+            Order order = new Order();
+            order.setOrderNum(200);
+            order.setOrderedDate(LocalDate.parse("01-01-2017", formatter));
+            order.setCustomerName("John");
+            order.setState("OH");
+            order.setTaxRate(new BigDecimal("6.25"));
+            order.setProductType("Carpet");
+            order.setArea(new BigDecimal("50"));
+            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
+            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
+            order.setMaterialCost(new BigDecimal("112.50"));
+            order.setLaborCost(new BigDecimal("105.00"));
+            order.setTax(new BigDecimal("13.49"));
+            order.setTotalCost(new BigDecimal("230.99"));
+            
+            service.addOrder(order);
+            fail("Expected DateTimeParseException was not thrown.");
+            
+        } catch (DateTimeParseException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testAddOrderAreaIncorrectFormat() throws Exception {
+        
+        try {
+            
+            Order order = new Order();
+            order.setOrderNum(200);
+            order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+            order.setCustomerName("John");
+            order.setState("OH");
+            order.setTaxRate(new BigDecimal("6.25"));
+            order.setProductType("Carpet");
+            order.setArea(new BigDecimal("50,50"));
+            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
+            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
+            order.setMaterialCost(new BigDecimal("112.50"));
+            order.setLaborCost(new BigDecimal("105.00"));
+            order.setTax(new BigDecimal("13.49"));
+            order.setTotalCost(new BigDecimal("230.99"));
+            
+            service.addOrder(order);
+            fail("Expected NumberFormatException was not thrown.");
+            
+        } catch (NumberFormatException e) {
+            
+            return;
+            
+        }
+        
+    }
+
+    /**
+     * Test of calculateOrderInfo method, of class FlooringMasteryServiceLayer.
+     */
+    @Test
+    public void testCalculateNewOrderInfo() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("OH");
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        
+        order = service.calculateOrderInfo(order, true);
+        
+        assertNotEquals(0, order.getOrderNum());
+        assertEquals(new BigDecimal("6.25"), order.getTaxRate());
+        assertEquals(new BigDecimal("2.25"), order.getMaterialCostPerSqFt());
+        assertEquals(new BigDecimal("2.10"), order.getLaborCostPerSqFt());
+        assertEquals(new BigDecimal("112.50"), order.getMaterialCost());
+        assertEquals(new BigDecimal("105.00"), order.getLaborCost());
+        assertEquals(new BigDecimal("13.49"), order.getTax());
+        assertEquals(new BigDecimal("230.99"), order.getTotalCost());
+        
+    }
+    
+    @Test
+    public void testCalculateEditedOrderInfo() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderNum(200);
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("OH");
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        
+        order = service.calculateOrderInfo(order, false);
+        
+        assertEquals(200, order.getOrderNum());
+        assertEquals(new BigDecimal("6.25"), order.getTaxRate());
+        assertEquals(new BigDecimal("2.25"), order.getMaterialCostPerSqFt());
+        assertEquals(new BigDecimal("2.10"), order.getLaborCostPerSqFt());
+        assertEquals(new BigDecimal("112.50"), order.getMaterialCost());
+        assertEquals(new BigDecimal("105.00"), order.getLaborCost());
+        assertEquals(new BigDecimal("13.49"), order.getTax());
+        assertEquals(new BigDecimal("230.99"), order.getTotalCost());
+        
+    }
+
+    /**
+     * Test of findOrdersByDate method, of class FlooringMasteryServiceLayer.
+     */
+    @Test
+    public void testFindOrdersByDate() throws Exception {
+        
+        assertEquals(1, service.findOrdersByDate(LocalDate.parse("01/01/2017", formatter)).size());
+        
+    }
+    
+    @Test
+    public void testFindOrdersByDateEmptyDate() throws Exception {
+        
+        assertNull(service.findOrdersByDate(LocalDate.parse("01/01/1000", formatter)));
+        
+    }
+    
+    @Test
+    public void testFindOrdersByDateInvalidFormat() throws Exception {
+        
+        try {
+            
+            service.findOrdersByDate(LocalDate.parse("", formatter));
+            fail("Expected DateTimeParseException not thrown.");
+            
+        } catch (DateTimeParseException e) {
+            
+            return;
+            
+        }
+        
+    }
+
+    /**
+     * Test of findOrdersByNumber method, of class FlooringMasteryServiceLayer.
+     */
+    @Test
+    public void testFindOrdersByNumber() throws Exception {
+        
+        Order order = service.findOrdersByNumber(LocalDate.parse("01/01/2017", formatter), 100);
+        assertNotNull(order);
+        
+        order = service.findOrdersByNumber(LocalDate.parse("01/01/2017", formatter), 300);
+        assertNull(order);
+        
+        order = service.findOrdersByNumber(LocalDate.parse("01/01/1000", formatter), 100);
+        assertNull(order);
+        
+    }
+    
+    @Test
+    public void testFindOrdersByNumberInvalidDate() throws Exception {
+        
+        try {
+            Order order = service.findOrdersByNumber(LocalDate.parse("01-01-2017", formatter), 100);
+            fail("Expected DateTimeParseException not thrown.");
+            
+        } catch (DateTimeParseException e) {
+            
+            return;
+            
+        }
+        
+    }
+
+    /**
+     * Test of editOrder method, of class FlooringMasteryServiceLayer.
+     */
+    @Test
+    public void testEditOrder() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderNum(200);
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("OH");
+        order.setTaxRate(new BigDecimal("6.25"));
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
+        order.setLaborCostPerSqFt(new BigDecimal("2.10"));
+        order.setMaterialCost(new BigDecimal("112.50"));
+        order.setLaborCost(new BigDecimal("105.00"));
+        order.setTax(new BigDecimal("13.49"));
+        order.setTotalCost(new BigDecimal("230.99"));
+        
+        service.editOrder(order);
+        
+    }
+    
+    @Test
+    public void testEditOrderInvalidInfoNoName() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderNum(200);
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("");
+        order.setState("OH");
+        order.setTaxRate(new BigDecimal("6.25"));
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
+        order.setLaborCostPerSqFt(new BigDecimal("2.10"));
+        order.setMaterialCost(new BigDecimal("112.50"));
+        order.setLaborCost(new BigDecimal("105.00"));
+        order.setTax(new BigDecimal("13.49"));
+        order.setTotalCost(new BigDecimal("230.99"));
+        
+        try {
+            
+            service.editOrder(order);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testEditOrderEmptyDateInvalidFormat() throws Exception {
+        
+        try {
+            
+            Order order = new Order();
+            order.setOrderNum(200);
+            order.setOrderedDate(LocalDate.parse("", formatter));
+            order.setCustomerName("John");
+            order.setState("OH");
+            order.setTaxRate(new BigDecimal("6.25"));
+            order.setProductType("Carpet");
+            order.setArea(new BigDecimal("50"));
+            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
+            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
+            order.setMaterialCost(new BigDecimal("112.50"));
+            order.setLaborCost(new BigDecimal("105.00"));
+            order.setTax(new BigDecimal("13.49"));
+            order.setTotalCost(new BigDecimal("230.99"));
+            
+            service.editOrder(order);
+            fail("Expected DateTimeParseException was not thrown.");
+            
+        } catch (DateTimeParseException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testEditOrderDateInvalidFormat() throws Exception {
+        
+        try {
+            
+            Order order = new Order();
+            order.setOrderNum(200);
+            order.setOrderedDate(LocalDate.parse("01-01-2017", formatter));
+            order.setCustomerName("John");
+            order.setState("OH");
+            order.setTaxRate(new BigDecimal("6.25"));
+            order.setProductType("Carpet");
+            order.setArea(new BigDecimal("50"));
+            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
+            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
+            order.setMaterialCost(new BigDecimal("112.50"));
+            order.setLaborCost(new BigDecimal("105.00"));
+            order.setTax(new BigDecimal("13.49"));
+            order.setTotalCost(new BigDecimal("230.99"));
+            
+            service.editOrder(order);
+            fail("Expected DateTimeParseException was not thrown.");
+            
+        } catch (DateTimeParseException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testEditOrderAreaIncorrectFormat() throws Exception {
+        
+        try {
+            
+            Order order = new Order();
+            order.setOrderNum(200);
+            order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+            order.setCustomerName("John");
+            order.setState("OH");
+            order.setTaxRate(new BigDecimal("6.25"));
+            order.setProductType("Carpet");
+            order.setArea(new BigDecimal("50,50"));
+            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
+            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
+            order.setMaterialCost(new BigDecimal("112.50"));
+            order.setLaborCost(new BigDecimal("105.00"));
+            order.setTax(new BigDecimal("13.49"));
+            order.setTotalCost(new BigDecimal("230.99"));
+            
+            service.editOrder(order);
+            fail("Expected NumberFormatException was not thrown.");
+            
+        } catch (NumberFormatException e) {
+            
+            return;
+            
+        }
+        
+    }
+
+    /**
+     * Test of removeOrder method, of class FlooringMasteryServiceLayer.
+     */
+    @Test
+    public void testRemoveOrder() throws Exception {
+        
+        Order order = new Order();
+        
+        order = service.removeOrder(100, order);
+        assertNotNull(order);
+        
+        order = service.removeOrder(300, order);
+        assertNull(order);
+        
+    }
+
+    /**
+     * Test of saveWork method, of class FlooringMasteryServiceLayer.
+     */
+    @Test
+    public void testSaveWork() throws Exception {
+        
+        boolean allowSave = service.saveWork();
+        
+        //If in prod
+        assertTrue(allowSave);
+        
+        //If in test
+        //assertFalse(allowSave);
+        
+    }
+    
+}

@@ -65,16 +65,17 @@ public class FlooringMasteryController {
                         saveWork();
                         break;
                     case 6:
+                        saveWorkAndExit();
                         keepGoing = false;
                         break;
                     default:
-                        io.print("UNKNOWN COMMAND");
+                        unknownCommand();
 
                 }
 
             }
 
-            io.print("GOOD BYE!");
+            exitMessage();
         
         } catch (OrderPersistenceException e) {
             
@@ -270,8 +271,34 @@ public class FlooringMasteryController {
     }
     
     private void saveWork() throws OrderPersistenceException {
-        
+            
         boolean workSaved = service.saveWork();
+
+        if (workSaved) {
+
+            view.displaySaveSuccessfulBanner();
+
+        } else {
+
+            view.displaySaveDisabledBanner();
+
+        }
+        
+    }
+    
+    private void saveWorkAndExit() throws OrderPersistenceException {
+        
+        boolean saveChanges = view.displaySaveWorkConfirmation();
+        
+        if (saveChanges) {
+            
+            saveWork();
+            
+        } else {
+            
+            view.displaySaveCancelledBanner();
+            
+        }
         
     }
 

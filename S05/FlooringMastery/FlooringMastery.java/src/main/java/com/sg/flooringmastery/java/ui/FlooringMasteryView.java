@@ -275,7 +275,7 @@ public class FlooringMasteryView {
     
     public void displayOrders(List<Order> orderList, LocalDate date) {
         
-        if (!orderList.isEmpty()) {
+        if (!orderList.isEmpty() && orderList != null) {
             
             for (Order currentOrder : orderList) {
                 
@@ -612,6 +612,40 @@ public class FlooringMasteryView {
     public void displayRemoveOrderCancelledBanner() {
 
         io.readString("\nThe order has been kept. Please hit enter to continue.");
+
+    }
+
+    public void displaySaveSuccessfulBanner() {
+
+        io.readString("\nThe orders have been updated. Please hit enter to continue.");
+
+    }
+
+    public void displaySaveDisabledBanner() {
+
+        io.readString("\nCurrently running TEST MODE. Saving has been disabled for this mode.");
+        
+    }
+
+    public boolean displaySaveWorkConfirmation() {
+
+        String saveWork = io.readString("\nDo you want to save your changes? (y/n)");
+        
+        if("y".equalsIgnoreCase(saveWork)) {
+            
+            return true;
+            
+        } else {
+            
+            return false;
+            
+        }
+        
+    }
+
+    public void displaySaveCancelledBanner() {
+
+        io.readString("\nChanges have not been saved. Please hit enter to continue.");
 
     }
 
