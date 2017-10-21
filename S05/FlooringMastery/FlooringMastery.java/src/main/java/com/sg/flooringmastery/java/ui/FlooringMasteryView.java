@@ -268,7 +268,26 @@ public class FlooringMasteryView {
     
     public int getOrderNum() {
         
-        int orderNum = io.readInt("\nPlease enter the order number.");
+        boolean validEntry = false;
+        int orderNum = 0;
+        
+        while (!validEntry) {
+            
+            try {
+                
+                orderNum = io.readInt("\nPlease enter the order number.");
+                validEntry = true;
+                
+            } catch (NumberFormatException e) {
+                
+                io.print("\nPlease ensure you're entering a proper order number");
+                validEntry = false;
+               
+            }
+            
+        }
+        
+        
         return orderNum;
         
     }
@@ -320,64 +339,26 @@ public class FlooringMasteryView {
         if (order != null) {
             
             io.print("\n--- Order " + order.getOrderNum() + " ---");
-            io.print("1. Order Date:            " + order.getOrderedDate().format(formatter));
-            io.print("2. Customer Name:         " + order.getCustomerName());
-            io.print("3. State:                 " + order.getState());
-            io.print("4. Product:               " + order.getProductType());
-            io.print("5. Area:                  " + order.getArea() + " sq ft");
-            io.print("6. Return");
-            return io.readInt("\nPlease choose from the menu.", 1, 6);
+            io.print("1. Customer Name:         " + order.getCustomerName());
+            io.print("2. State:                 " + order.getState());
+            io.print("3. Product:               " + order.getProductType());
+            io.print("4. Area:                  " + order.getArea() + " sq ft");
+            io.print("5. Return");
+            return io.readInt("\nPlease choose from the menu.", 1, 5);
             
         } else {
             
             io.print("\nThere doesn't appear to be an order.");
-            return 6;
+            return 5;
             
         }
         
     }
 
-    public Order editOrderDate(Order order) {
-
-        boolean validEntry = false;
-        String userInput = null;
+    public void displayNewOrderNoticeBanner() {
+    
+        io.print("\nA new Order Num has been created for this order.");
         
-        LocalDate date = order.getOrderedDate();
-        LocalDate newDate = null;
-        
-        //If new info is entered, verify it's in a good format with the below if statement.
-        //If good, replace old info with the new. Otherwise, return the old.
-        while (!validEntry) {
-            
-            userInput = io.readString("\nPlease enter the order date (MM/dd/yyyy).");
-            
-            if (userInput != null && !"".equals(userInput)) {
-            
-                try {
-
-                    newDate = LocalDate.parse(userInput, formatter);
-                    validEntry = true;
-
-                } catch (DateTimeParseException e) {
-
-                    io.print("\nPlease enter the date in the correct format.");
-                    validEntry = false;
-
-                }
-                
-                date = newDate;
-
-            } else {
-                
-                validEntry = true;
-                
-            }
-            
-        }
-        
-        order.setOrderedDate(date);
-        return order;
-
     }
     
     public Order editCustomerName(Order order) {

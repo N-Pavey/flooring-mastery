@@ -206,4 +206,18 @@ public class Order {
         return true;
     }
     
+    @Override
+    public String toString() {
+        
+        return "Order Number: " + orderNum + " |Date: " + orderedDate
+                + " |Customer Name: " + customerName
+                + " |State: " + state + " |Tax Rate: " + taxRate
+                + " |Product: " + productType + " |Area: " + area
+                + " |Material Cost/Sq Ft: " + materialCostPerSqFt
+                + " |Labor Cost/Sq Ft: " + laborCostPerSqFt
+                + " |Material Cost: " + materialCost + " |Labor Cost: " + laborCost
+                + " |Tax: " + tax + " |Total Cost: " + totalCost;
+        
+    }
+    
 }

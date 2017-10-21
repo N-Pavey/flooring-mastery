@@ -179,7 +179,6 @@ public class OrderDaoFileImpl implements OrderDao {
 
         loadOrder(order.getOrderedDate());
         Order editedOrder = orders.put(orderNum, order);
-        //writeOrder(order.getOrderedDate());
         return editedOrder;
 
     }
@@ -189,7 +188,6 @@ public class OrderDaoFileImpl implements OrderDao {
 
         removedOrders.put(orderNum, order);
         Order removedOrder = orders.remove(orderNum);
-        //writeOrder(order.getOrderedDate());
         return removedOrder;
         
     }

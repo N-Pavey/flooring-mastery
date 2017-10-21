@@ -23,6 +23,8 @@ import com.sg.flooringmastery.java.service.FlooringMasteryServiceLayerImpl;
 import com.sg.flooringmastery.java.ui.FlooringMasteryView;
 import com.sg.flooringmastery.java.ui.UserIO;
 import com.sg.flooringmastery.java.ui.UserIOConsoleImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -31,7 +33,7 @@ import com.sg.flooringmastery.java.ui.UserIOConsoleImpl;
 public class App {
     
     public static void main(String[] args) {
-        
+        /*
         UserIO myIo = new UserIOConsoleImpl();
         FlooringMasteryView myView = new FlooringMasteryView(myIo);
         OrderDao orderDao = new OrderDaoFileImpl();
@@ -42,6 +44,11 @@ public class App {
         OrderModeDao orderModeDao = new OrderModeDaoFileImpl();
         FlooringMasteryServiceLayer myService = new FlooringMasteryServiceLayerImpl(orderDao, productDao, taxRateDao, orderNumDao, orderModeDao, auditDao);
         FlooringMasteryController controller = new FlooringMasteryController(myService, myView);
+        controller.run();
+        */
+        
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        FlooringMasteryController controller = ctx.getBean("controller", FlooringMasteryController.class);
         controller.run();
         
     }

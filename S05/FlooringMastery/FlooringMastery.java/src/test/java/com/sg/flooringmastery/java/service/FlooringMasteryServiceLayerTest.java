@@ -30,6 +30,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -41,7 +43,7 @@ public class FlooringMasteryServiceLayerTest {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     
     public FlooringMasteryServiceLayerTest() {
-        
+        /*
         OrderDao orderDao = new OrderDaoStubImpl();
         ProductDao productDao = new ProductDaoFileImpl();
         TaxRateDao taxRateDao = new TaxRateDaoFileImpl();
@@ -50,6 +52,10 @@ public class FlooringMasteryServiceLayerTest {
         AuditDao auditDao = new AuditDaoFileImpl();
         
         service = new FlooringMasteryServiceLayerImpl(orderDao, productDao, taxRateDao, orderNumDao, orderModeDao, auditDao);
+        */
+        
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        service = ctx.getBean("serviceLayer", FlooringMasteryServiceLayer.class);
         
     }
     

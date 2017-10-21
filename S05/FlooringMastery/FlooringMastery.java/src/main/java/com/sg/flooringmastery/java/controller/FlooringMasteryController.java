@@ -153,21 +153,18 @@ public class FlooringMasteryController {
             switch (menuSelection) {
                 
                 case 1:
-                    editOrderDate(order);
-                    break;
-                case 2:
                     editCustomerName(order);
                     break;
-                case 3:
+                case 2:
                     editState(order);
                     break;
-                case 4:
+                case 3:
                     editProductType(order);
                     break;
-                case 5:
+                case 4:
                     editArea(order);
                     break;
-                case 6:
+                case 5:
                     keepEditing = false;
                     break;
                 default:
@@ -193,13 +190,6 @@ public class FlooringMasteryController {
 
         return view.printEditMenuAndGetSelection(order);
 
-    }
-
-    private void editOrderDate(Order order) throws OrderPersistenceException {
-        
-        order = view.editOrderDate(order);
-        updateOrder(order);
-        
     }
     
     private void editCustomerName(Order order) throws OrderPersistenceException {
