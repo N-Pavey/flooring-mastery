@@ -122,7 +122,6 @@ public class OrderDaoStubImpl implements OrderDao {
     public void saveOrders() throws OrderPersistenceException {
         
         //Nothing to return
-        //Nothing to do?
 
     }
     

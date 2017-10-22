@@ -143,9 +143,7 @@ public class OrderDaoFileImpl implements OrderDao {
     @Override
     public Order addOrder(int orderNum, Order order) throws OrderPersistenceException {
 
-        //loadOrder(order.getOrderedDate());
         Order newOrder = orders.put(orderNum, order);
-        //writeOrder(order.getOrderedDate());
         return newOrder;
 
     }

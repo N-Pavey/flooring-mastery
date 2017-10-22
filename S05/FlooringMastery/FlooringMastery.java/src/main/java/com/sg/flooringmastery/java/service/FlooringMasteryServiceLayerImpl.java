@@ -51,7 +51,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         validateOrderInfo(order);
         
         orderDao.addOrder(order.getOrderNum(), order);
-        //auditDao.writeAuditEntry("Order " + order.getOrderNum() + " created.");
+        orderNumDao.increaseOrderNumber();
         
         return order;
 
@@ -66,7 +66,6 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
             
             int orderNum = orderNumDao.findOrderNumber();
             order.setOrderNum(orderNum);
-            orderNumDao.increaseOrderNumber();
             
         }
         
@@ -123,8 +122,6 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
         validateOrderInfo(order);
         
-        //auditDao.writeAuditEntry("Order " + order.getOrderNum() + " edited.");
-        
         return orderDao.editOrder(order.getOrderNum(), order);
         
     }
@@ -133,8 +130,6 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     public Order removeOrder(int orderNum, Order order) throws OrderPersistenceException {
 
         Order removedOrder = orderDao.removeOrder(orderNum, order);
-        
-        //auditDao.writeAuditEntry("Order " + orderNum + " removed.");
         
         return removedOrder;
 

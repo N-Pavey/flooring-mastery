@@ -48,7 +48,7 @@ public class LoggingAdvice {
     }
     
     @AfterThrowing(
-        pointcut="execution(* com.sg.vendingmachine.service.VendingMachineServiceLayer.vendItem(..))",
+        pointcut="execution(* com.sg.flooringmastery.java.service.FlooringMasteryServiceLayer)",
             throwing = "error"
     )
     public void createAuditEntryExceptions(JoinPoint jp, Throwable error) {

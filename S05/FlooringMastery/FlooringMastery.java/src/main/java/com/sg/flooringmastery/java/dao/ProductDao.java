@@ -13,9 +13,6 @@ import com.sg.flooringmastery.java.dto.Product;
  */
 public interface ProductDao {
     
-    //necessary?
-    //void addProduct(String productType, Product product);
-    
     Product findProduct(String productType) throws OrderPersistenceException;
     
 }

@@ -5,7 +5,6 @@
  */
 package com.sg.flooringmastery.java.dao;
 
-import com.sg.flooringmastery.java.dto.Product;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,7 +12,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  *
@@ -54,13 +52,6 @@ public class TaxRateDaoFileImpl implements TaxRateDao {
         scanner.close();
 
     }
-
-    /*necessary?
-    @Override
-    public void addTaxRate(String state, BigDecimal taxRate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-*/
 
     @Override
     public BigDecimal findTaxRate(String state) throws OrderPersistenceException {

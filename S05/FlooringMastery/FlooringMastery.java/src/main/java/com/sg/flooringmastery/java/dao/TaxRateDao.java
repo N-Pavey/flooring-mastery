@@ -13,9 +13,6 @@ import java.math.BigDecimal;
  */
 public interface TaxRateDao {
     
-    //necessary?
-    //void addTaxRate(String state, BigDecimal taxRate);
-    
     BigDecimal findTaxRate(String state) throws OrderPersistenceException;
     
 }

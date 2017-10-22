@@ -5,16 +5,11 @@
  */
 package com.sg.flooringmastery.java.controller;
 
-import com.sg.flooringmastery.java.dao.OrderDao;
-import com.sg.flooringmastery.java.dao.OrderDaoFileImpl;
 import com.sg.flooringmastery.java.dao.OrderPersistenceException;
 import com.sg.flooringmastery.java.dto.Order;
 import com.sg.flooringmastery.java.service.FlooringMasteryServiceLayer;
-import com.sg.flooringmastery.java.service.FlooringMasteryServiceLayerImpl;
 import com.sg.flooringmastery.java.service.InvalidOrderInformationException;
 import com.sg.flooringmastery.java.ui.FlooringMasteryView;
-import com.sg.flooringmastery.java.ui.UserIO;
-import com.sg.flooringmastery.java.ui.UserIOConsoleImpl;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,8 +28,6 @@ public class FlooringMasteryController {
         this.view = view;
         
     }
-    
-    private UserIO io = new UserIOConsoleImpl();
     
     public void run() {
         
