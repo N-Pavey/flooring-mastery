@@ -1,0 +1,3 @@
+2017-10-23T22:04:32.038 + addOrder: Order Number: 1000 |Date: 2017-10-23 |Customer Name: Nathan - Test |State: OH |Tax Rate: 6.25 |Product: Carpet |Area: 25 |Material Cost/Sq Ft: 2.25 |Labor Cost/Sq Ft: 2.10 |Material Cost: 56.25 |Labor Cost: 52.50 |Tax: 6.74 |Total Cost: 115.49
+2017-10-23T22:04:34.545 + Orders/Changes have been saved.
+2017-10-23T22:04:39.578 + Orders/Changes have been saved.
