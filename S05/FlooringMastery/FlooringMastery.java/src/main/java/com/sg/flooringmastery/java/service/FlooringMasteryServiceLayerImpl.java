@@ -17,6 +17,8 @@ import com.sg.flooringmastery.java.dto.Product;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 /**
@@ -46,9 +48,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public Order addOrder(Order order) throws OrderPersistenceException, InvalidOrderInformationException {
-
-        validateOrderInfo(order);
+    public Order addOrder(Order order) throws OrderPersistenceException {
         
         orderDao.addOrder(order.getOrderNum(), order);
         orderNumDao.increaseOrderNumber();
@@ -58,7 +58,9 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
     
     @Override
-    public Order calculateOrderInfo(Order order, boolean newOrder) throws OrderPersistenceException {
+    public Order calculateOrderInfo(Order order, boolean newOrder) throws OrderPersistenceException, InvalidOrderInformationException {
+        
+        validateOrderInfo(order);
         
         Product product = productDao.findProduct(order.getProductType());
         
@@ -118,9 +120,9 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public Order editOrder(Order order) throws OrderPersistenceException, InvalidOrderInformationException {
+    public Order editOrder(Order order) throws OrderPersistenceException {
 
-        validateOrderInfo(order);
+        //validateOrderInfo(order);
         
         return orderDao.editOrder(order.getOrderNum(), order);
         
@@ -160,12 +162,26 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     
     private void validateOrderInfo(Order order) throws InvalidOrderInformationException {
         
-        if (order.getCustomerName() == null
-                || order.getCustomerName().trim().length() == 0) {
+        LocalDate dateCutOff = LocalDate.parse("1960-01-01");
+        
+        if (order.getOrderedDate() == null
+                || order.getCustomerName() == null
+                || order.getCustomerName().trim().length() == 0
+                || order.getCustomerName().contains(",")
+                || order.getArea() == null
+                || order.getArea().compareTo(BigDecimal.ZERO) <= 0) {
             
-            throw new InvalidOrderInformationException("ERROR: Field (Customer Name) is required.");
+            throw new InvalidOrderInformationException("\nERROR: Fields (Order Date, Customer Name, and Area) are all required."
+                    + "\nPlease double check that you use the specified format and that fields do not contain commas.");
             
         }
+        
+        if (order.getOrderedDate().isBefore(dateCutOff)) {
+
+            throw new InvalidOrderInformationException("\nERROR: Please enter a more valid (recent) date.");
+
+        }
+        
     }
     
 }

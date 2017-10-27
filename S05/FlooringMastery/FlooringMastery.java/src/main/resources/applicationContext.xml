@@ -77,6 +77,12 @@
             
             <aop:after-throwing
                 method="createAuditEntryExceptions"
+                pointcut="execution(* com.sg.flooringmastery.java.service.FlooringMasteryServiceLayer.calculateOrderInfo(..))"
+                throwing="error"
+            />
+            
+            <aop:after-throwing
+                method="createAuditEntryExceptions"
                 pointcut="execution(* com.sg.flooringmastery.java.service.FlooringMasteryServiceLayer.editOrder(..))"
                 throwing="error"
             />

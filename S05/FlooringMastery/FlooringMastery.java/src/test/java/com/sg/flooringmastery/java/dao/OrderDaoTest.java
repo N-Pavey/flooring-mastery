@@ -31,7 +31,7 @@ public class OrderDaoTest {
     
     //Set up test date for tests
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    private LocalDate testDate = LocalDate.parse("01/01/2017", formatter);
+    private LocalDate testDate = LocalDate.parse("01/01/1500", formatter);
     
     public OrderDaoTest() {
     }
@@ -243,7 +243,7 @@ public class OrderDaoTest {
         orderDao.addOrder(order.getOrderNum(), order);
         orderDao.saveOrders();
         
-        File testFile = new File("orders/Orders_01012017.txt");
+        File testFile = new File("orders/Orders_01011500.txt");
         assertTrue(testFile.isFile());
         
         orderDao.removeOrder(order.getOrderNum(), order);

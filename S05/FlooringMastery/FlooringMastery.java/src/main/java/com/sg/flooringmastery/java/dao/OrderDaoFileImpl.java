@@ -37,11 +37,11 @@ public class OrderDaoFileImpl implements OrderDao {
     File directory = new File("orders");
     File[] listOfFiles = directory.listFiles();
     
-    private void loadOrder(LocalDate date) throws OrderPersistenceException {
+    private void loadOrder() throws OrderPersistenceException {
         
         for (File file : listOfFiles) {
 
-            if (("Orders_" + date.format(formatter).toString() + ".txt").equals(file.getName())) {
+            //if (("Orders_" + date.format(formatter).toString() + ".txt").equals(file.getName())) {
                 
                 Scanner scanner;
                 
@@ -85,7 +85,7 @@ public class OrderDaoFileImpl implements OrderDao {
 
                 scanner.close();
                 
-            }
+            //}
 
         }
         
@@ -151,7 +151,13 @@ public class OrderDaoFileImpl implements OrderDao {
     @Override
     public List<Order> findOrdersByDate(LocalDate date) throws OrderPersistenceException {
 
-        loadOrder(date);
+        //Only load orders if they haven't been loaded yet - empty maps
+        if (orders.isEmpty() && removedOrders.isEmpty()) {
+        
+            loadOrder();
+            
+        }
+        
         return orders.values()
                 .stream()
                 .filter(o -> o.getOrderedDate().equals(date))
@@ -162,7 +168,13 @@ public class OrderDaoFileImpl implements OrderDao {
     @Override
     public Order findOrderByNumber(LocalDate date, int orderNum) throws OrderPersistenceException {
 
-        loadOrder(date);
+        //Only load orders if they haven't been loaded yet - empty maps
+        if (orders.isEmpty() && removedOrders.isEmpty()) {
+        
+            loadOrder();
+            
+        }
+        
         return orders.values()
                 .stream()
                 .filter(o -> o.getOrderedDate().equals(date))
@@ -175,7 +187,13 @@ public class OrderDaoFileImpl implements OrderDao {
     @Override
     public Order editOrder(int orderNum, Order order) throws OrderPersistenceException {
 
-        loadOrder(order.getOrderedDate());
+        //Only load orders if they haven't been loaded yet - empty maps
+        if (orders.isEmpty() && removedOrders.isEmpty()) {
+        
+            loadOrder();
+            
+        }
+        
         Order editedOrder = orders.put(orderNum, order);
         return editedOrder;
 
@@ -186,6 +204,7 @@ public class OrderDaoFileImpl implements OrderDao {
 
         removedOrders.put(orderNum, order);
         Order removedOrder = orders.remove(orderNum);
+        
         return removedOrder;
         
     }

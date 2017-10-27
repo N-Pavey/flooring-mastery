@@ -99,130 +99,6 @@ public class FlooringMasteryServiceLayerTest {
         service.addOrder(order);
         
     }
-    
-    @Test
-    public void testAddOrderInvalidInfoNoName() throws Exception {
-        
-        Order order = new Order();
-        order.setOrderNum(200);
-        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
-        order.setCustomerName("");
-        order.setState("OH");
-        order.setTaxRate(new BigDecimal("6.25"));
-        order.setProductType("Carpet");
-        order.setArea(new BigDecimal("50"));
-        order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
-        order.setLaborCostPerSqFt(new BigDecimal("2.10"));
-        order.setMaterialCost(new BigDecimal("112.50"));
-        order.setLaborCost(new BigDecimal("105.00"));
-        order.setTax(new BigDecimal("13.49"));
-        order.setTotalCost(new BigDecimal("230.99"));
-        
-        try {
-            
-            service.addOrder(order);
-            fail("Expected InvalidOrderInformationException was not thrown.");
-            
-        } catch (InvalidOrderInformationException e) {
-            
-            return;
-            
-        }
-        
-    }
-    
-    @Test
-    public void testAddOrderEmptyDateInvalidFormat() throws Exception {
-        
-        try {
-            
-            Order order = new Order();
-            order.setOrderNum(200);
-            order.setOrderedDate(LocalDate.parse("", formatter));
-            order.setCustomerName("John");
-            order.setState("OH");
-            order.setTaxRate(new BigDecimal("6.25"));
-            order.setProductType("Carpet");
-            order.setArea(new BigDecimal("50"));
-            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
-            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
-            order.setMaterialCost(new BigDecimal("112.50"));
-            order.setLaborCost(new BigDecimal("105.00"));
-            order.setTax(new BigDecimal("13.49"));
-            order.setTotalCost(new BigDecimal("230.99"));
-            
-            service.addOrder(order);
-            fail("Expected DateTimeParseException was not thrown.");
-            
-        } catch (DateTimeParseException e) {
-            
-            return;
-            
-        }
-        
-    }
-    
-    @Test
-    public void testAddOrderDateInvalidFormat() throws Exception {
-        
-        try {
-            
-            Order order = new Order();
-            order.setOrderNum(200);
-            order.setOrderedDate(LocalDate.parse("01-01-2017", formatter));
-            order.setCustomerName("John");
-            order.setState("OH");
-            order.setTaxRate(new BigDecimal("6.25"));
-            order.setProductType("Carpet");
-            order.setArea(new BigDecimal("50"));
-            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
-            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
-            order.setMaterialCost(new BigDecimal("112.50"));
-            order.setLaborCost(new BigDecimal("105.00"));
-            order.setTax(new BigDecimal("13.49"));
-            order.setTotalCost(new BigDecimal("230.99"));
-            
-            service.addOrder(order);
-            fail("Expected DateTimeParseException was not thrown.");
-            
-        } catch (DateTimeParseException e) {
-            
-            return;
-            
-        }
-        
-    }
-    
-    @Test
-    public void testAddOrderAreaIncorrectFormat() throws Exception {
-        
-        try {
-            
-            Order order = new Order();
-            order.setOrderNum(200);
-            order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
-            order.setCustomerName("John");
-            order.setState("OH");
-            order.setTaxRate(new BigDecimal("6.25"));
-            order.setProductType("Carpet");
-            order.setArea(new BigDecimal("50,50"));
-            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
-            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
-            order.setMaterialCost(new BigDecimal("112.50"));
-            order.setLaborCost(new BigDecimal("105.00"));
-            order.setTax(new BigDecimal("13.49"));
-            order.setTotalCost(new BigDecimal("230.99"));
-            
-            service.addOrder(order);
-            fail("Expected NumberFormatException was not thrown.");
-            
-        } catch (NumberFormatException e) {
-            
-            return;
-            
-        }
-        
-    }
 
     /**
      * Test of calculateOrderInfo method, of class FlooringMasteryServiceLayer.
@@ -247,6 +123,121 @@ public class FlooringMasteryServiceLayerTest {
         assertEquals(new BigDecimal("105.00"), order.getLaborCost());
         assertEquals(new BigDecimal("13.49"), order.getTax());
         assertEquals(new BigDecimal("230.99"), order.getTotalCost());
+        
+    }
+    
+    @Test
+    public void testCalculateOrderEmptyCustomerName() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("");
+        order.setState("OH");
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        
+        try {
+            
+            order = service.calculateOrderInfo(order, true);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testCalculateOrderCommaPresentCustomerName() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("Name,");
+        order.setState("OH");
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        
+        try {
+            
+            order = service.calculateOrderInfo(order, true);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testCalculateOrderZeroArea() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("OH");
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("0"));
+        
+        try {
+            
+            order = service.calculateOrderInfo(order, true);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testCalculateOrderNegativeArea() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("OH");
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("-50"));
+        
+        try {
+            
+            order = service.calculateOrderInfo(order, true);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testCalculateOrderDateOutOfBounds() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/1800", formatter));
+        order.setCustomerName("");
+        order.setState("OH");
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        
+        try {
+            
+            order = service.calculateOrderInfo(order, true);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
         
     }
     
@@ -361,130 +352,6 @@ public class FlooringMasteryServiceLayerTest {
         order.setTotalCost(new BigDecimal("230.99"));
         
         service.editOrder(order);
-        
-    }
-    
-    @Test
-    public void testEditOrderInvalidInfoNoName() throws Exception {
-        
-        Order order = new Order();
-        order.setOrderNum(200);
-        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
-        order.setCustomerName("");
-        order.setState("OH");
-        order.setTaxRate(new BigDecimal("6.25"));
-        order.setProductType("Carpet");
-        order.setArea(new BigDecimal("50"));
-        order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
-        order.setLaborCostPerSqFt(new BigDecimal("2.10"));
-        order.setMaterialCost(new BigDecimal("112.50"));
-        order.setLaborCost(new BigDecimal("105.00"));
-        order.setTax(new BigDecimal("13.49"));
-        order.setTotalCost(new BigDecimal("230.99"));
-        
-        try {
-            
-            service.editOrder(order);
-            fail("Expected InvalidOrderInformationException was not thrown.");
-            
-        } catch (InvalidOrderInformationException e) {
-            
-            return;
-            
-        }
-        
-    }
-    
-    @Test
-    public void testEditOrderEmptyDateInvalidFormat() throws Exception {
-        
-        try {
-            
-            Order order = new Order();
-            order.setOrderNum(200);
-            order.setOrderedDate(LocalDate.parse("", formatter));
-            order.setCustomerName("John");
-            order.setState("OH");
-            order.setTaxRate(new BigDecimal("6.25"));
-            order.setProductType("Carpet");
-            order.setArea(new BigDecimal("50"));
-            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
-            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
-            order.setMaterialCost(new BigDecimal("112.50"));
-            order.setLaborCost(new BigDecimal("105.00"));
-            order.setTax(new BigDecimal("13.49"));
-            order.setTotalCost(new BigDecimal("230.99"));
-            
-            service.editOrder(order);
-            fail("Expected DateTimeParseException was not thrown.");
-            
-        } catch (DateTimeParseException e) {
-            
-            return;
-            
-        }
-        
-    }
-    
-    @Test
-    public void testEditOrderDateInvalidFormat() throws Exception {
-        
-        try {
-            
-            Order order = new Order();
-            order.setOrderNum(200);
-            order.setOrderedDate(LocalDate.parse("01-01-2017", formatter));
-            order.setCustomerName("John");
-            order.setState("OH");
-            order.setTaxRate(new BigDecimal("6.25"));
-            order.setProductType("Carpet");
-            order.setArea(new BigDecimal("50"));
-            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
-            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
-            order.setMaterialCost(new BigDecimal("112.50"));
-            order.setLaborCost(new BigDecimal("105.00"));
-            order.setTax(new BigDecimal("13.49"));
-            order.setTotalCost(new BigDecimal("230.99"));
-            
-            service.editOrder(order);
-            fail("Expected DateTimeParseException was not thrown.");
-            
-        } catch (DateTimeParseException e) {
-            
-            return;
-            
-        }
-        
-    }
-    
-    @Test
-    public void testEditOrderAreaIncorrectFormat() throws Exception {
-        
-        try {
-            
-            Order order = new Order();
-            order.setOrderNum(200);
-            order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
-            order.setCustomerName("John");
-            order.setState("OH");
-            order.setTaxRate(new BigDecimal("6.25"));
-            order.setProductType("Carpet");
-            order.setArea(new BigDecimal("50,50"));
-            order.setMaterialCostPerSqFt(new BigDecimal("2.25"));
-            order.setLaborCostPerSqFt(new BigDecimal("2.10"));
-            order.setMaterialCost(new BigDecimal("112.50"));
-            order.setLaborCost(new BigDecimal("105.00"));
-            order.setTax(new BigDecimal("13.49"));
-            order.setTotalCost(new BigDecimal("230.99"));
-            
-            service.editOrder(order);
-            fail("Expected NumberFormatException was not thrown.");
-            
-        } catch (NumberFormatException e) {
-            
-            return;
-            
-        }
         
     }
 

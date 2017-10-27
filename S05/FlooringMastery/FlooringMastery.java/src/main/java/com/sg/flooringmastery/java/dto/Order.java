@@ -15,6 +15,24 @@ import java.util.Objects;
  */
 public class Order {
     
+    public Order () {
+        
+        // Do nothing
+        
+    }
+    
+    //Copy constructor
+    public Order (Order order) {
+        
+        orderNum = order.orderNum;
+        orderedDate = order.orderedDate;
+        customerName = order.customerName;
+        state = order.state;
+        productType = order.productType;
+        area = order.area;
+        
+    }
+    
     private int orderNum;
     private String customerName;
     private String state;
@@ -136,19 +154,19 @@ public class Order {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 11 * hash + this.orderNum;
-        hash = 11 * hash + Objects.hashCode(this.customerName);
-        hash = 11 * hash + Objects.hashCode(this.state);
-        hash = 11 * hash + Objects.hashCode(this.taxRate);
-        hash = 11 * hash + Objects.hashCode(this.productType);
-        hash = 11 * hash + Objects.hashCode(this.area);
-        hash = 11 * hash + Objects.hashCode(this.materialCostPerSqFt);
-        hash = 11 * hash + Objects.hashCode(this.laborCostPerSqFt);
-        hash = 11 * hash + Objects.hashCode(this.materialCost);
-        hash = 11 * hash + Objects.hashCode(this.laborCost);
-        hash = 11 * hash + Objects.hashCode(this.tax);
-        hash = 11 * hash + Objects.hashCode(this.totalCost);
-        hash = 11 * hash + Objects.hashCode(this.orderedDate);
+        hash = 19 * hash + this.orderNum;
+        hash = 19 * hash + Objects.hashCode(this.customerName);
+        hash = 19 * hash + Objects.hashCode(this.state);
+        hash = 19 * hash + Objects.hashCode(this.taxRate);
+        hash = 19 * hash + Objects.hashCode(this.productType);
+        hash = 19 * hash + Objects.hashCode(this.area);
+        hash = 19 * hash + Objects.hashCode(this.materialCostPerSqFt);
+        hash = 19 * hash + Objects.hashCode(this.laborCostPerSqFt);
+        hash = 19 * hash + Objects.hashCode(this.materialCost);
+        hash = 19 * hash + Objects.hashCode(this.laborCost);
+        hash = 19 * hash + Objects.hashCode(this.tax);
+        hash = 19 * hash + Objects.hashCode(this.totalCost);
+        hash = 19 * hash + Objects.hashCode(this.orderedDate);
         return hash;
     }
 
@@ -205,6 +223,8 @@ public class Order {
         }
         return true;
     }
+
+    
     
     @Override
     public String toString() {

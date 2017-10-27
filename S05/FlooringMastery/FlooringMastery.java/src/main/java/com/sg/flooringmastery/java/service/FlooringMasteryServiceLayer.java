@@ -16,15 +16,15 @@ import java.util.List;
  */
 public interface FlooringMasteryServiceLayer {
     
-    Order addOrder(Order order) throws OrderPersistenceException, InvalidOrderInformationException;
+    Order addOrder(Order order) throws OrderPersistenceException;
     
-    Order calculateOrderInfo(Order order, boolean newOrder) throws OrderPersistenceException;
+    Order calculateOrderInfo(Order order, boolean newOrder) throws OrderPersistenceException, InvalidOrderInformationException;
     
     List<Order> findOrdersByDate(LocalDate date) throws OrderPersistenceException;
     
     Order findOrdersByNumber(LocalDate date, int orderNum) throws OrderPersistenceException;
     
-    Order editOrder(Order order) throws OrderPersistenceException, InvalidOrderInformationException;
+    Order editOrder(Order order) throws OrderPersistenceException;
     
     Order removeOrder(int orderNum, Order order) throws OrderPersistenceException;
     

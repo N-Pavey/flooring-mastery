@@ -104,24 +104,28 @@ public class FlooringMasteryController {
             Order newOrder = view.getNewOrderInfo();
             
             //Setting boolean to true - new order needs order num
-            newOrder = service.calculateOrderInfo(newOrder, true);
+            try {
             
-            confirmOrder = view.getOrderConfirmation(newOrder);
+                newOrder = service.calculateOrderInfo(newOrder, true);
+                confirmOrder = view.getOrderConfirmation(newOrder);
+                hasErrors = false;
+                
+            } catch (InvalidOrderInformationException e) {
+
+                hasErrors = true;
+                view.displayErrorMessage(e.getMessage());
+
+            }
             
             if (confirmOrder) {
             
-                try {
-
-                    service.addOrder(newOrder);
-                    view.displayAddOrderSuccessBanner();
-                    hasErrors = false;
-
-                } catch (InvalidOrderInformationException e) {
-
-                    hasErrors = true;
-                    view.displayErrorMessage(e.getMessage());
-
-                }
+                service.addOrder(newOrder);
+                view.displayAddOrderSuccessBanner();
+                hasErrors = false;
+                
+            } else if (hasErrors) {
+                
+                view.displayOrderRestartBanner();
                 
             } else {
                 
@@ -135,100 +139,50 @@ public class FlooringMasteryController {
     
     private void editOrder() throws OrderPersistenceException {
         
-        boolean keepEditing = true;
-        int menuSelection = 0;
-        Order order = getOrderEdit();
+        boolean hasErrors = false;
         
-        while (keepEditing) {
-            
-            menuSelection = getEditSelection(order);
-            
-            switch (menuSelection) {
-                
-                case 1:
-                    editCustomerName(order);
-                    break;
-                case 2:
-                    editState(order);
-                    break;
-                case 3:
-                    editProductType(order);
-                    break;
-                case 4:
-                    editArea(order);
-                    break;
-                case 5:
-                    keepEditing = false;
-                    break;
-                default:
-                    unknownCommand();
-                    
-            }
-            
-        }
-        
-    }
-
-    private Order getOrderEdit() throws OrderPersistenceException {
-
         view.displayEditOrderBanner();
+        
         LocalDate date = view.getOrderDate();
         int orderNum = view.getOrderNum();
         Order order = service.findOrdersByNumber(date, orderNum);
-        return order;
-
-    }
-
-    private int getEditSelection(Order order) {
-
-        return view.printEditMenuAndGetSelection(order);
-
-    }
-    
-    private void editCustomerName(Order order) throws OrderPersistenceException {
-
-        order = view.editCustomerName(order);
-        updateOrder(order);
         
-    }
-
-    private void editState(Order order) throws OrderPersistenceException {
-
-        order = view.editState(order);
-        updateOrder(order);
+        if (order != null) {
         
-    }
+            Order editedOrder = new Order(order);
+            editedOrder = view.editOrderInfo(editedOrder);
 
-    private void editProductType(Order order) throws OrderPersistenceException {
+            //Setting boolean to false as it's not a new order - doesn't need a new order num    
+            try {
 
-        order = view.editProductType(order);
-        updateOrder(order);
-        
-    }
+                editedOrder = service.calculateOrderInfo(editedOrder, false);
 
-    private void editArea(Order order) throws OrderPersistenceException {
+            } catch (InvalidOrderInformationException e) {
 
-        order = view.editArea(order);
-        updateOrder(order);
-        
-    }
-    
-    private void updateOrder(Order order) throws OrderPersistenceException {
-        
-        //Setting boolean to false as it's not a new order - doesn't need a new order num    
-        order = service.calculateOrderInfo(order, false);
+                hasErrors = true;
+                view.displayErrorMessage(e.getMessage());
 
-        try {
+            }
 
-            service.editOrder(order);
+            if (!hasErrors) {
 
-        } catch (InvalidOrderInformationException e) {
+                //remove old order information - will be replaced after edit
+                service.removeOrder(orderNum, order);
+
+                service.editOrder(editedOrder);
+                view.displayEditedOrderInfo(editedOrder);
+
+            } else {
+
+                view.displayEditCancelledBanner();
+
+            }
             
-            view.displayErrorMessage(e.getMessage());
-
+        } else {
+            
+            view.displayNullOrderBanner();
+            
         }
-        
-        view.displayEditedOrderInfo(order);
         
     }
     
