@@ -11,8 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -57,6 +59,16 @@ public class ProductDaoFileImpl implements ProductDao {
 
         scanner.close();
 
+    }
+    
+    @Override
+    public List<Product> pullAllProducts() throws OrderPersistenceException {
+        
+        loadProducts();
+        return products.values()
+                .stream()
+                .collect(Collectors.toList());
+        
     }
 
     @Override

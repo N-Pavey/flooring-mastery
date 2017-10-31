@@ -1,0 +1,18 @@
+2017-10-30T19:58:26.259 + calculateOrderInfo: Exception thrown: java.lang.NullPointerException
+2017-10-30T21:23:57.080 + calculateOrderInfo: Exception thrown: com.sg.flooringmastery.java.service.InvalidOrderInformationException: 
+ERROR: The state you entered doesn't match any of the available states.
+Please enter a valid state
+2017-10-30T21:24:43.225 + calculateOrderInfo: Exception thrown: com.sg.flooringmastery.java.service.InvalidOrderInformationException: 
+ERROR: The product you entered doesn't match any of the available products.
+Please enter a valid product.
+2017-10-30T21:25:18.130 + addOrder: Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: PA |Tax Rate: 6.75 |Product: Wood |Area: 25 |Material Cost/Sq Ft: 5.15 |Labor Cost/Sq Ft: 4.75 |Material Cost: 128.75 |Labor Cost: 118.75 |Tax: 16.58 |Total Cost: 264.08
+2017-10-30T21:25:41.511 + calculateOrderInfo: Exception thrown: com.sg.flooringmastery.java.service.InvalidOrderInformationException: 
+ERROR: The state you entered doesn't match any of the available states.
+Please enter a valid state
+2017-10-30T21:26:04.491 + removeOrder: 1000Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: PA |Tax Rate: 6.75 |Product: Wood |Area: 25 |Material Cost/Sq Ft: 5.15 |Labor Cost/Sq Ft: 4.75 |Material Cost: 128.75 |Labor Cost: 118.75 |Tax: 16.58 |Total Cost: 264.08
+2017-10-30T21:26:04.496 + editOrder: Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: PA |Tax Rate: 6.75 |Product: Wood |Area: 25 |Material Cost/Sq Ft: 5.15 |Labor Cost/Sq Ft: 4.75 |Material Cost: 128.75 |Labor Cost: 118.75 |Tax: 16.58 |Total Cost: 264.08
+2017-10-30T21:26:35.494 + calculateOrderInfo: Exception thrown: com.sg.flooringmastery.java.service.InvalidOrderInformationException: 
+ERROR: Fields (Order Date, Customer Name, and Area) are all required.
+Please double check that you use the specified format and that fields do not contain commas.
+2017-10-30T21:27:08.089 + removeOrder: 1000Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: PA |Tax Rate: 6.75 |Product: Wood |Area: 25 |Material Cost/Sq Ft: 5.15 |Labor Cost/Sq Ft: 4.75 |Material Cost: 128.75 |Labor Cost: 118.75 |Tax: 16.58 |Total Cost: 264.08
+2017-10-30T21:27:08.089 + editOrder: Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: PA |Tax Rate: 6.75 |Product: Laminate |Area: 25 |Material Cost/Sq Ft: 1.75 |Labor Cost/Sq Ft: 2.10 |Material Cost: 43.75 |Labor Cost: 52.50 |Tax: 6.45 |Total Cost: 102.70

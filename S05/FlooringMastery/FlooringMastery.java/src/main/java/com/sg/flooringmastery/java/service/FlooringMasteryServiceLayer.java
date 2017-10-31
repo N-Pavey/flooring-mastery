@@ -7,8 +7,11 @@ package com.sg.flooringmastery.java.service;
 
 import com.sg.flooringmastery.java.dao.OrderPersistenceException;
 import com.sg.flooringmastery.java.dto.Order;
+import com.sg.flooringmastery.java.dto.Product;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,6 +20,10 @@ import java.util.List;
 public interface FlooringMasteryServiceLayer {
     
     Order addOrder(Order order) throws OrderPersistenceException;
+    
+    Map<String, BigDecimal> pullStates() throws OrderPersistenceException;
+    
+    List<Product> pullProducts() throws OrderPersistenceException;
     
     Order calculateOrderInfo(Order order, boolean newOrder) throws OrderPersistenceException, InvalidOrderInformationException;
     

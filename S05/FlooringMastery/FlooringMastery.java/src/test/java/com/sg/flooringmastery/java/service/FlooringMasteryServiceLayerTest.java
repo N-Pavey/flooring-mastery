@@ -5,25 +5,11 @@
  */
 package com.sg.flooringmastery.java.service;
 
-import com.sg.flooringmastery.java.dao.AuditDao;
-import com.sg.flooringmastery.java.dao.AuditDaoFileImpl;
-import com.sg.flooringmastery.java.dao.OrderDao;
-import com.sg.flooringmastery.java.dao.OrderDaoStubImpl;
-import com.sg.flooringmastery.java.dao.OrderModeDao;
-import com.sg.flooringmastery.java.dao.OrderModeDaoFileImpl;
-import com.sg.flooringmastery.java.dao.OrderNumberDao;
-import com.sg.flooringmastery.java.dao.OrderNumberDaoFileImpl;
-import com.sg.flooringmastery.java.dao.OrderPersistenceException;
-import com.sg.flooringmastery.java.dao.ProductDao;
-import com.sg.flooringmastery.java.dao.ProductDaoFileImpl;
-import com.sg.flooringmastery.java.dao.TaxRateDao;
-import com.sg.flooringmastery.java.dao.TaxRateDaoFileImpl;
 import com.sg.flooringmastery.java.dto.Order;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,16 +29,6 @@ public class FlooringMasteryServiceLayerTest {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     
     public FlooringMasteryServiceLayerTest() {
-        /*
-        OrderDao orderDao = new OrderDaoStubImpl();
-        ProductDao productDao = new ProductDaoFileImpl();
-        TaxRateDao taxRateDao = new TaxRateDaoFileImpl();
-        OrderNumberDao orderNumDao = new OrderNumberDaoFileImpl();
-        OrderModeDao orderModeDao = new OrderModeDaoFileImpl();
-        AuditDao auditDao = new AuditDaoFileImpl();
-        
-        service = new FlooringMasteryServiceLayerImpl(orderDao, productDao, taxRateDao, orderNumDao, orderModeDao, auditDao);
-        */
         
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
         service = ctx.getBean("serviceLayer", FlooringMasteryServiceLayer.class);
@@ -97,6 +73,26 @@ public class FlooringMasteryServiceLayerTest {
         order.setTotalCost(new BigDecimal("230.99"));
         
         service.addOrder(order);
+        
+    }
+    
+    /**
+     * Test of pullStates method, of class FlooringMasteryServiceLayer.
+     */
+    @Test
+    public void testPullStates() throws Exception {
+        
+        assertEquals(4, service.pullStates().size());
+        
+    }
+    
+    /**
+     * Test of pullProducts method, of class FlooringMasteryServiceLayer.
+     */
+    @Test
+    public void testPullProducts() throws Exception {
+        
+        assertEquals(4, service.pullProducts().size());
         
     }
 
@@ -204,6 +200,144 @@ public class FlooringMasteryServiceLayerTest {
         order.setState("OH");
         order.setProductType("Carpet");
         order.setArea(new BigDecimal("-50"));
+        
+        try {
+            
+            order = service.calculateOrderInfo(order, true);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testCalculateOrderInvalidState() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("Denial");
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        
+        try {
+            
+            order = service.calculateOrderInfo(order, true);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testCalculateOrderEmptyState() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("");
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        
+        try {
+            
+            order = service.calculateOrderInfo(order, true);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testCalculateOrderCommaInState() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("I,N");
+        order.setProductType("Carpet");
+        order.setArea(new BigDecimal("50"));
+        
+        try {
+            
+            order = service.calculateOrderInfo(order, true);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testCalculateOrderInvalidProduct() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("IN");
+        order.setProductType("concrete");
+        order.setArea(new BigDecimal("50"));
+        
+        try {
+            
+            order = service.calculateOrderInfo(order, true);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testCalculateOrderEmptyProduct() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("IN");
+        order.setProductType("");
+        order.setArea(new BigDecimal("50"));
+        
+        try {
+            
+            order = service.calculateOrderInfo(order, true);
+            fail("Expected InvalidOrderInformationException was not thrown.");
+            
+        } catch (InvalidOrderInformationException e) {
+            
+            return;
+            
+        }
+        
+    }
+    
+    @Test
+    public void testCalculateOrderCommaInProduct() throws Exception {
+        
+        Order order = new Order();
+        order.setOrderedDate(LocalDate.parse("01/01/2017", formatter));
+        order.setCustomerName("John");
+        order.setState("IN");
+        order.setProductType("Com,ma");
+        order.setArea(new BigDecimal("50"));
         
         try {
             

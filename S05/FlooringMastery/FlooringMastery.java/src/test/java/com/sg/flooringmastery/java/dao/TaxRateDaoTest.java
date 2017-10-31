@@ -6,6 +6,7 @@
 package com.sg.flooringmastery.java.dao;
 
 import java.math.BigDecimal;
+import java.util.Map;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -61,6 +62,30 @@ public class TaxRateDaoTest {
         state = "IN";
         taxRate = taxRateDao.findTaxRate(state);
         assertEquals(new BigDecimal("6.00"), taxRate);
+        
+    }
+    
+    @Test
+    public void testFindTaxRateInvalidState() throws Exception {
+        
+        String state = "Europe";
+        assertNull(taxRateDao.findTaxRate(state));
+        
+    }
+    
+    @Test
+    public void testFindTaxRateBlankField() throws Exception {
+        
+        String state = "";
+        assertNull(taxRateDao.findTaxRate(state));
+        
+    }
+    
+    @Test
+    public void testPullAllStates() throws Exception {
+        
+        Map<String, BigDecimal> states = taxRateDao.pullAvailableStates();
+        assertEquals(4, states.size());
         
     }
     

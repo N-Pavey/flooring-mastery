@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -58,8 +59,35 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
     
     @Override
+    public Map<String, BigDecimal> pullStates() throws OrderPersistenceException {
+        
+        return taxRateDao.pullAvailableStates();
+        
+    }
+    
+    @Override
+    public List<Product> pullProducts() throws OrderPersistenceException {
+        
+        return productDao.pullAllProducts();
+        
+    }
+    
+    @Override
     public Order calculateOrderInfo(Order order, boolean newOrder) throws OrderPersistenceException, InvalidOrderInformationException {
         
+        //Set State and Product to easily comparible states
+        String state = order.getState().toUpperCase();
+        order.setState(state);
+        
+        //Setting format to 'Sentence case' type format
+        if (!"".equals(order.getProductType())){
+            
+            String productType = order.getProductType().substring(0,1).toUpperCase() + order.getProductType().substring(1).toLowerCase();
+            order.setProductType(productType);
+        
+        }
+        
+        //Validate info before proceeding
         validateOrderInfo(order);
         
         Product product = productDao.findProduct(order.getProductType());
@@ -160,14 +188,21 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
     }
     
-    private void validateOrderInfo(Order order) throws InvalidOrderInformationException {
+    private void validateOrderInfo(Order order) throws InvalidOrderInformationException, OrderPersistenceException {
         
         LocalDate dateCutOff = LocalDate.parse("1960-01-01");
         
+        //Check info for general errors
         if (order.getOrderedDate() == null
                 || order.getCustomerName() == null
                 || order.getCustomerName().trim().length() == 0
                 || order.getCustomerName().contains(",")
+                || order.getState() == null
+                || order.getState().trim().length() == 0
+                || order.getState().contains(",")
+                || order.getProductType() == null
+                || order.getProductType().trim().length() == 0
+                || order.getProductType().contains(",")
                 || order.getArea() == null
                 || order.getArea().compareTo(BigDecimal.ZERO) <= 0) {
             
@@ -176,10 +211,27 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
             
         }
         
+        //Verify date is recent enough
         if (order.getOrderedDate().isBefore(dateCutOff)) {
 
             throw new InvalidOrderInformationException("\nERROR: Please enter a more valid (recent) date.");
 
+        }
+        
+        //Check for invalid state
+        if (taxRateDao.findTaxRate(order.getState()) == null) {
+            
+            throw new InvalidOrderInformationException("\nERROR: The state you entered doesn't match any of the available states."
+                    + "\nPlease enter a valid state");
+            
+        }
+        
+        //Check for invalid product
+        if (productDao.findProduct(order.getProductType()) == null) {
+            
+            throw new InvalidOrderInformationException("\nERROR: The product you entered doesn't match any of the available products."
+                    + "\nPlease enter a valid product.");
+            
         }
         
     }

@@ -7,11 +7,14 @@ package com.sg.flooringmastery.java.controller;
 
 import com.sg.flooringmastery.java.dao.OrderPersistenceException;
 import com.sg.flooringmastery.java.dto.Order;
+import com.sg.flooringmastery.java.dto.Product;
 import com.sg.flooringmastery.java.service.FlooringMasteryServiceLayer;
 import com.sg.flooringmastery.java.service.InvalidOrderInformationException;
 import com.sg.flooringmastery.java.ui.FlooringMasteryView;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -99,9 +102,12 @@ public class FlooringMasteryController {
         boolean hasErrors = false;
         boolean confirmOrder = false;
         
+        Map<String, BigDecimal> statesMap = service.pullStates();
+        List<Product> productsList = service.pullProducts();
+        
         do {
             
-            Order newOrder = view.getNewOrderInfo();
+            Order newOrder = view.getNewOrderInfo(statesMap, productsList);
             
             //Setting boolean to true - new order needs order num
             try {
@@ -146,11 +152,13 @@ public class FlooringMasteryController {
         LocalDate date = view.getOrderDate();
         int orderNum = view.getOrderNum();
         Order order = service.findOrdersByNumber(date, orderNum);
+        Map<String, BigDecimal> statesMap = service.pullStates();
+        List<Product> productsList = service.pullProducts();
         
         if (order != null) {
         
             Order editedOrder = new Order(order);
-            editedOrder = view.editOrderInfo(editedOrder);
+            editedOrder = view.editOrderInfo(editedOrder, statesMap, productsList);
 
             //Setting boolean to false as it's not a new order - doesn't need a new order num    
             try {

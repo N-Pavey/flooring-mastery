@@ -6,12 +6,15 @@
 package com.sg.flooringmastery.java.dao;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  *
  * @author apprentice
  */
 public interface TaxRateDao {
+    
+    Map<String, BigDecimal> pullAvailableStates() throws OrderPersistenceException;
     
     BigDecimal findTaxRate(String state) throws OrderPersistenceException;
     

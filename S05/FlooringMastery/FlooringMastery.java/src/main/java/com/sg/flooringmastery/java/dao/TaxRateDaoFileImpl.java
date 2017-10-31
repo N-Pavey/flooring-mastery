@@ -52,6 +52,14 @@ public class TaxRateDaoFileImpl implements TaxRateDao {
         scanner.close();
 
     }
+    
+    @Override
+    public Map<String, BigDecimal> pullAvailableStates() throws OrderPersistenceException {
+        
+        loadTaxes();
+        return taxRates;
+        
+    }
 
     @Override
     public BigDecimal findTaxRate(String state) throws OrderPersistenceException {

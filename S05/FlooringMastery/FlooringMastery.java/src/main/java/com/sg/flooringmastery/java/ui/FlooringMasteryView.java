@@ -6,12 +6,14 @@
 package com.sg.flooringmastery.java.ui;
 
 import com.sg.flooringmastery.java.dto.Order;
+import com.sg.flooringmastery.java.dto.Product;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -43,7 +45,7 @@ public class FlooringMasteryView {
         
     }
     
-    public Order getNewOrderInfo() {
+    public Order getNewOrderInfo(Map<String, BigDecimal> statesMap, List<Product> productsList) {
         
         boolean validEntry = false;
         LocalDate date = null;
@@ -72,57 +74,27 @@ public class FlooringMasteryView {
         
         //Get the state
         io.print("\nAvailable States");
-        io.print("1. OH");
-        io.print("2. PA");
-        io.print("3. MI");
-        io.print("4. IN");
-        int stateSelection = io.readInt("Please choose from the menu.", 1, 4);
         
-        switch (stateSelection) {
+        for (String key : statesMap.keySet()) {
             
-            case 1:
-                state = "OH";
-                break;
-            case 2:
-                state = "PA";
-                break;
-            case 3:
-                state = "MI";
-                break;
-            case 4:
-                state = "IN";
-                break;
-            default:
-                displayUnknownCommandBanner();
+            io.print(key);
             
         }
+        
+        state = io.readString("\nPlease enter one of the states available.");
+        
         
         //Get the flooring selection
         io.print("\nFlooring Options");
-        io.print("1. Carpet | Cost / Sq. Ft. = $2.25 | Labor Cost / Sq. Ft. = $2.10");
-        io.print("2. Laminate | Cost / Sq. Ft. = $1.75 | Labor Cost / Sq. Ft. = $2.10");
-        io.print("3. Tile | Cost / Sq. Ft. = $3.50 | Labor Cost / Sq. Ft. = $4.15");
-        io.print("4. Wood | Cost / Sq. Ft. = $5.15 | Labor Cost / Sq. Ft. = $4.75");
-        int floorSelection = io.readInt("Please choose from the menu.", 1, 4);
         
-        switch (floorSelection) {
+        for (Product currentProduct : productsList) {
             
-            case 1:
-                product = "Carpet";
-                break;
-            case 2:
-                product = "Laminate";
-                break;
-            case 3:
-                product = "Tile";
-                break;
-            case 4:
-                product = "Wood";
-                break;
-            default:
-                displayUnknownCommandBanner();
+            io.print(currentProduct.getProductType() + " | Cost/Sq. Ft. = $" + currentProduct.getMaterialCostPerSqFt()
+                        + " | Labor Cost/Sq. Ft. = $" + currentProduct.getLaborCostPerSqFt());
             
         }
+        
+        product = io.readString("\nPlease enter one of the available products.");
         
         //Get the area
         validEntry = false;
@@ -312,35 +284,8 @@ public class FlooringMasteryView {
         io.print("\n--- Edit Order ---");
         
     }
-    /*
-    public int printEditMenuAndGetSelection(Order order) {
-        
-        if (order != null) {
-            
-            io.print("\n--- Order " + order.getOrderNum() + " ---");
-            io.print("1. Customer Name:         " + order.getCustomerName());
-            io.print("2. State:                 " + order.getState());
-            io.print("3. Product:               " + order.getProductType());
-            io.print("4. Area:                  " + order.getArea() + " sq ft");
-            io.print("5. Return");
-            return io.readInt("\nPlease choose from the menu.", 1, 5);
-            
-        } else {
-            
-            io.print("\nThere doesn't appear to be an order.");
-            return 5;
-            
-        }
-        
-    }
-
-    public void displayNewOrderNoticeBanner() {
     
-        io.print("\nA new Order Num has been created for this order.");
-        
-    }
-    */
-    public Order editOrderInfo(Order order) {
+    public Order editOrderInfo(Order order, Map<String, BigDecimal> statesMap, List<Product> productsList) {
         
         if (order != null) {
             
@@ -410,71 +355,43 @@ public class FlooringMasteryView {
 
             }
 
-            //Get state
+            //Get the state
             io.print("\nCurrent State: " + state);
-            io.print("Please select the new state or enter '5' to keep the current state.");
-            io.print("1. OH");
-            io.print("2. PA");
-            io.print("3. MI");
-            io.print("4. IN");
-            int stateSelection = io.readInt("Please choose from the menu.", 1, 5);
+            io.print("Available States");
 
-            switch (stateSelection) {
+            for (String key : statesMap.keySet()) {
 
-                case 1:
-                    state = "OH";
-                    break;
-                case 2:
-                    state = "PA";
-                    break;
-                case 3:
-                    state = "MI";
-                    break;
-                case 4:
-                    state = "IN";
-                    break;
-                case 5:
-                    state = state;
-                    break;
-                default:
-                    displayUnknownCommandBanner();
+                io.print(key);
 
             }
 
-            order.setState(state);
+            newState = io.readString("\nPlease enter the new state from those available or hit enter to skip.");
+            
+            if (newState != null && !"".equals(newState)) {
+                
+                order.setState(newState);
+                
+            }
 
-            //Get Product
+
+            //Get the flooring selection
             io.print("\nCurrent Product: " + product);
-            io.print("Please select the new product or enter '5' to keep the current product.");
-            io.print("1. Carpet | Cost / Sq. Ft. = $2.25 | Labor Cost / Sq. Ft. = $2.10");
-            io.print("2. Laminate | Cost / Sq. Ft. = $1.75 | Labor Cost / Sq. Ft. = $2.10");
-            io.print("3. Tile | Cost / Sq. Ft. = $3.50 | Labor Cost / Sq. Ft. = $4.15");
-            io.print("4. Wood | Cost / Sq. Ft. = $5.15 | Labor Cost / Sq. Ft. = $4.75");
-            int floorSelection = io.readInt("Please choose from the menu.", 1, 5);
+            io.print("Flooring Options");
 
-            switch (floorSelection) {
+            for (Product currentProduct : productsList) {
 
-                case 1:
-                    product = "Carpet";
-                    break;
-                case 2:
-                    product = "Laminate";
-                    break;
-                case 3:
-                    product = "Tile";
-                    break;
-                case 4:
-                    product = "Wood";
-                    break;
-                case 5:
-                    product = product;
-                    break;
-                default:
-                    displayUnknownCommandBanner();
+                io.print(currentProduct.getProductType() + " | Cost/Sq. Ft. = $" + currentProduct.getMaterialCostPerSqFt()
+                            + " | Labor Cost/Sq. Ft. = $" + currentProduct.getLaborCostPerSqFt());
 
             }
 
-            order.setProductType(product);
+            newProduct = io.readString("\nPlease enter the new product from those available or hit enter to skip.");
+            
+            if (newProduct != null && !"".equals(newProduct)) {
+                
+                order.setProductType(newProduct);
+                
+            }
 
             
             //Get Area

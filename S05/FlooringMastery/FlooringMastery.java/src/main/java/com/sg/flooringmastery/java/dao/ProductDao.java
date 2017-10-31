@@ -6,12 +6,15 @@
 package com.sg.flooringmastery.java.dao;
 
 import com.sg.flooringmastery.java.dto.Product;
+import java.util.List;
 
 /**
  *
  * @author apprentice
  */
 public interface ProductDao {
+    
+    List<Product> pullAllProducts() throws OrderPersistenceException;
     
     Product findProduct(String productType) throws OrderPersistenceException;
     

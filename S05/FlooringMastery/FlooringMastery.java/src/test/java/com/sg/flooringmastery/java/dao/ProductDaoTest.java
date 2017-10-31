@@ -7,6 +7,7 @@ package com.sg.flooringmastery.java.dao;
 
 import com.sg.flooringmastery.java.dto.Product;
 import java.math.BigDecimal;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -71,6 +72,30 @@ public class ProductDaoTest {
         assertEquals("Wood", product.getProductType());
         assertEquals(new BigDecimal("5.15"), product.getMaterialCostPerSqFt());
         assertEquals(new BigDecimal("4.75"), product.getLaborCostPerSqFt());
+        
+    }
+    
+    @Test
+    public void testFindProductInvalidProduct() throws Exception {
+        
+        String productType = "plaster";
+        assertNull(productDao.findProduct(productType));
+        
+    }
+    
+    @Test
+    public void testFindProductBlankField() throws Exception {
+        
+        String productType = "";
+        assertNull(productDao.findProduct(productType));
+        
+    }
+    
+    @Test
+    public void testPullAllProducts() throws Exception {
+        
+        List<Product> products = productDao.pullAllProducts();
+        assertEquals(4, products.size());
         
     }
     
