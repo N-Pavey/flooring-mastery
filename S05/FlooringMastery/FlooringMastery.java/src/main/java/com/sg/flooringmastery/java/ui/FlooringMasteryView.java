@@ -105,7 +105,17 @@ public class FlooringMasteryView {
 
                 area = new BigDecimal(io.readString("\nPlease enter the square footage."));
                 area = area.setScale(0, RoundingMode.CEILING);
-                validEntry = true;
+                
+                if (area.compareTo(BigDecimal.ZERO) > 0) {
+                    
+                    validEntry = true;
+                    
+                } else {
+                
+                    io.print("\nPlease enter a number greater than 0.");
+                    validEntry = false;
+                
+                }
 
             } catch (NumberFormatException e) {
 
@@ -413,7 +423,17 @@ public class FlooringMasteryView {
 
                         newArea = new BigDecimal(userAreaInput);
                         newArea = newArea.setScale(0, RoundingMode.CEILING);
-                        validEntry = true;
+                        
+                        if (newArea.compareTo(BigDecimal.ZERO) > 0) {
+                    
+                            validEntry = true;
+
+                        } else {
+
+                            io.print("\nPlease enter a number greater than 0.");
+                            validEntry = false;
+
+                        }
 
                     } catch (NumberFormatException e) {
 
@@ -423,13 +443,13 @@ public class FlooringMasteryView {
                     }
                     
                 }
-
-                if (newArea != null) {
-
-                    order.setArea(newArea);
-
-                }
             
+            }
+
+            if (newArea != null) {
+
+                order.setArea(newArea);
+
             }
             
             return order;

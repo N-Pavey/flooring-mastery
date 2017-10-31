@@ -16,3 +16,22 @@ ERROR: Fields (Order Date, Customer Name, and Area) are all required.
 Please double check that you use the specified format and that fields do not contain commas.
 2017-10-30T21:27:08.089 + removeOrder: 1000Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: PA |Tax Rate: 6.75 |Product: Wood |Area: 25 |Material Cost/Sq Ft: 5.15 |Labor Cost/Sq Ft: 4.75 |Material Cost: 128.75 |Labor Cost: 118.75 |Tax: 16.58 |Total Cost: 264.08
 2017-10-30T21:27:08.089 + editOrder: Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: PA |Tax Rate: 6.75 |Product: Laminate |Area: 25 |Material Cost/Sq Ft: 1.75 |Labor Cost/Sq Ft: 2.10 |Material Cost: 43.75 |Labor Cost: 52.50 |Tax: 6.45 |Total Cost: 102.70
+2017-10-30T22:29:14.229 + calculateOrderInfo: Exception thrown: com.sg.flooringmastery.java.service.InvalidOrderInformationException: 
+ERROR: Fields (Order Date, Customer Name, and Area) are all required.
+Please double check that you use the specified format and that fields do not contain commas.
+2017-10-30T22:44:08.082 + calculateOrderInfo: Exception thrown: com.sg.flooringmastery.java.service.InvalidOrderInformationException: 
+ERROR: Fields (Order Date, Customer Name, and Area) are all required.
+Please double check that you use the specified format and that fields do not contain commas.
+2017-10-30T22:45:08.600 + addOrder: Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: IN |Tax Rate: 6.00 |Product: Wood |Area: 10 |Material Cost/Sq Ft: 5.15 |Labor Cost/Sq Ft: 4.75 |Material Cost: 51.50 |Labor Cost: 47.50 |Tax: 5.94 |Total Cost: 104.94
+2017-10-30T22:46:39.499 + addOrder: Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: IN |Tax Rate: 6.00 |Product: Wood |Area: 10 |Material Cost/Sq Ft: 5.15 |Labor Cost/Sq Ft: 4.75 |Material Cost: 51.50 |Labor Cost: 47.50 |Tax: 5.94 |Total Cost: 104.94
+2017-10-30T22:46:54.910 + removeOrder: 1000Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: IN |Tax Rate: 6.00 |Product: Wood |Area: 10 |Material Cost/Sq Ft: 5.15 |Labor Cost/Sq Ft: 4.75 |Material Cost: 51.50 |Labor Cost: 47.50 |Tax: 5.94 |Total Cost: 104.94
+2017-10-30T22:46:54.911 + editOrder: Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: IN |Tax Rate: 6.00 |Product: Wood |Area: 10 |Material Cost/Sq Ft: 5.15 |Labor Cost/Sq Ft: 4.75 |Material Cost: 51.50 |Labor Cost: 47.50 |Tax: 5.94 |Total Cost: 104.94
+2017-10-30T22:47:13.366 + calculateOrderInfo: Exception thrown: com.sg.flooringmastery.java.service.InvalidOrderInformationException: 
+ERROR: Fields (Order Date, Customer Name, and Area) are all required.
+Please double check that you use the specified format and that fields do not contain commas.
+2017-10-30T22:48:26.900 + calculateOrderInfo: Exception thrown: com.sg.flooringmastery.java.service.InvalidOrderInformationException: 
+ERROR: Fields (Order Date, Customer Name, and Area) are all required.
+Please double check that you use the specified format and that fields do not contain commas.
+2017-10-30T23:00:15.999 + addOrder: Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: IN |Tax Rate: 6.00 |Product: Tile |Area: 25 |Material Cost/Sq Ft: 3.50 |Labor Cost/Sq Ft: 4.15 |Material Cost: 87.50 |Labor Cost: 103.75 |Tax: 11.48 |Total Cost: 202.73
+2017-10-30T23:00:45.988 + removeOrder: 1000Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: IN |Tax Rate: 6.00 |Product: Tile |Area: 25 |Material Cost/Sq Ft: 3.50 |Labor Cost/Sq Ft: 4.15 |Material Cost: 87.50 |Labor Cost: 103.75 |Tax: 11.48 |Total Cost: 202.73
+2017-10-30T23:00:45.989 + editOrder: Order Number: 1000 |Date: 2017-10-30 |Customer Name: Nathan - Test 2 |State: MI |Tax Rate: 5.75 |Product: Wood |Area: 15 |Material Cost/Sq Ft: 5.15 |Labor Cost/Sq Ft: 4.75 |Material Cost: 77.25 |Labor Cost: 71.25 |Tax: 8.46 |Total Cost: 156.96
