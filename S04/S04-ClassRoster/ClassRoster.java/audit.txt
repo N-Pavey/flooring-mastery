@@ -1,6 +1,0 @@
-2017-07-15T19:26:19.058 : Student 0001 CREATED.
-2017-09-04T17:15:53.065 : createStudent: ID: 0001 | Name: Joe Smith | Cohort: Java
-2017-09-04T17:16:10.688 : createStudent: ID: 12345 | Name: Sally Jones | Cohort: .NET
-2017-09-04T17:16:20.825 : removeStudent: 12345
-2017-09-04T17:16:36.667 : createStudent: ID: 0002 | Name: Sally Jones | Cohort: .NET
-2017-09-04T17:16:43.287 : removeStudent: 0001
